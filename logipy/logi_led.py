@@ -238,6 +238,10 @@ class SDKNotFoundException(BaseException):
     pass
 
 
+class LGHUBNotLaunched(BaseException):
+    pass
+
+
 def load_dll(path_dll=None):
     prev_cwd = Path(__file__).parent
     path_dll = f"{prev_cwd}/dll/LogitechLedEnginesWrapper.dll"
@@ -258,9 +262,10 @@ except SDKNotFoundException as exception_sdk:
 def logi_led_init():
     """initializes the sdk for the current thread."""
     if led_dll:
-        return bool(led_dll.LogiLedInit())
-    else:
-        return False
+        if not bool(led_dll.LogiLedInit()):
+            raise LGHUBNotLaunched(
+                "You must start Logitech GHUB before using the Logipy packages"
+            )
 
 
 def logi_led_set_target_device(target_device):
@@ -278,6 +283,9 @@ def logi_led_set_lighting_for_target_zone(
     green_percentage=0,
     blue_percentage=0,
 ):
+    """
+    Set lighting for specific zone
+    """
     if led_dll:
         return led_dll.LogiLedSetLightingForTargetZone(
             None, zone, red_percentage, green_percentage, blue_percentage
