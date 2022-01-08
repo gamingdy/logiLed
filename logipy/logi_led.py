@@ -164,6 +164,14 @@ LOGI_DEVICETYPE_ALL = (
 _LOGI_SHARED_SDK_LED = ctypes.c_int(1)
 
 
+class SDKNotFoundException(BaseException):
+    pass
+
+
+class LGHUBNotLaunched(BaseException):
+    pass
+
+
 # Helpers
 #
 class Color:
@@ -235,38 +243,42 @@ class Color:
         )
 
 
-class SDKNotFoundException(BaseException):
-    pass
+class LogitechLed:
+    def __init__(self):
+        self._initialize_led()
 
+    def _load_dll(self):
+        prev_cwd = Path(__file__).parent
+        path_dll = f"{prev_cwd}/dll/LogitechLedEnginesWrapper.dll"
+        if os.path.exists(path_dll):
+            return ctypes.cdll.LoadLibrary(path_dll)
+        else:
+            raise SDKNotFoundException("The SDK DLL was not found.")
 
-class LGHUBNotLaunched(BaseException):
-    pass
-
-
-def load_dll(path_dll=None):
-    prev_cwd = Path(__file__).parent
-    path_dll = f"{prev_cwd}/dll/LogitechLedEnginesWrapper.dll"
-    if os.path.exists(path_dll):
-        return ctypes.cdll.LoadLibrary(path_dll)
-    else:
-        raise SDKNotFoundException("The SDK DLL was not found.")
-
-
-try:
-    led_dll = load_dll()
-except SDKNotFoundException as exception_sdk:
-    led_dll = None
-
-
-# Wrapped SDK Functions
-#
-def logi_led_init():
-    """initializes the sdk for the current thread."""
-    if led_dll:
-        if not bool(led_dll.LogiLedInit()):
+    def _initialize_led(self):
+        """initializes the sdk for the current thread."""
+        self.led_dll = self._load_dll()
+        if not bool(self.led_dll.LogiLedInit()):
             raise LGHUBNotLaunched(
                 "You must start Logitech GHUB before using the Logipy packages"
             )
+
+    def logi_led_shutdown(self):
+        """shutdowns the SDK for the thread."""
+        return bool(self.led_dll.LogiLedShutdown())
+
+    def logi_led_set_lighting_for_target_zone(
+        zone=0,
+        red_percentage=0,
+        green_percentage=0,
+        blue_percentage=0,
+    ):
+        """
+        Set lighting for specific zone
+        """
+        return self.led_dll.LogiLedSetLightingForTargetZone(
+            None, zone, red_percentage, green_percentage, blue_percentage
+        )
 
 
 def logi_led_set_target_device(target_device):
@@ -274,23 +286,6 @@ def logi_led_set_target_device(target_device):
     if led_dll:
         target_device = ctypes.c_int(target_device)
         return bool(led_dll.LogiLedSetTargetDevice(target_device))
-    else:
-        return False
-
-
-def logi_led_set_lighting_for_target_zone(
-    zone=0,
-    red_percentage=0,
-    green_percentage=0,
-    blue_percentage=0,
-):
-    """
-    Set lighting for specific zone
-    """
-    if led_dll:
-        return led_dll.LogiLedSetLightingForTargetZone(
-            None, zone, red_percentage, green_percentage, blue_percentage
-        )
     else:
         return False
 
@@ -565,14 +560,6 @@ def logi_led_stop_effects_on_key(key_name):
     if led_dll:
         key_name = ctypes.c_int(key_name)
         return bool(led_dll.LogiLedStopEffectsOnKey(key_name))
-    else:
-        return False
-
-
-def logi_led_shutdown():
-    """shutdowns the SDK for the thread."""
-    if led_dll:
-        return bool(led_dll.LogiLedShutdown())
     else:
         return False
 
