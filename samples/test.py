@@ -25,4 +25,4 @@ while True:
     logi_led.logi_led_set_lighting_for_target_zone(zone, red, green, blue)"""
 
 input("Press enter to shutdown SDK...")
-logi_led.logi_led_shutdown()
+logi_led.shutdown()

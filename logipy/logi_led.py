@@ -4,10 +4,9 @@ Logitech Gaming LED SDK
 Copyright (C) 2011-2015 Logitech. All rights reserved.
 Original author: Tom Lambert
 Email: devtechsupport@logitech.com
-"""
 
-"""
-This is a fork of https://github.com/Logitech/logiPy 
+
+This is a fork of https://github.com/Logitech/logiPy
 by gamingdy
 """
 
@@ -175,7 +174,7 @@ class LGHUBNotLaunched(BaseException):
 # Helpers
 #
 class Color:
-    """an RGBA color object that can be created using RGB, RGBA, color name, or a hex_code."""
+    # an RGBA color object that can be created using RGB, RGBA, color name, or a hex_code.
 
     def __init__(self, *args, **kwargs):
         red, green, blue, alpha = 0, 0, 0, 255
@@ -244,8 +243,10 @@ class Color:
 
 
 class LogitechLed:
+    """A main function"""
+
     def __init__(self):
-        self._initialize_led()
+        self._initialize_sdk()
 
     def _load_dll(self):
         prev_cwd = Path(__file__).parent
@@ -255,33 +256,38 @@ class LogitechLed:
         else:
             raise SDKNotFoundException("The SDK DLL was not found.")
 
-    def _initialize_led(self):
-        """initializes the sdk for the current thread."""
+    def _initialize_sdk(self):
         self.led_dll = self._load_dll()
         if not bool(self.led_dll.LogiLedInit()):
             raise LGHUBNotLaunched(
                 "You must start Logitech GHUB before using the Logipy packages"
             )
 
-    def logi_led_shutdown(self):
-        """shutdowns the SDK for the thread."""
+    def shutdown(self):
+        """Shutdown SDK for current thread"""
         return bool(self.led_dll.LogiLedShutdown())
 
-    def logi_led_set_lighting_for_target_zone(
+    def set_lighting_for_target_zone(
+        self,
         zone=0,
         red_percentage=0,
         green_percentage=0,
         blue_percentage=0,
     ):
         """
-        Set lighting for specific zone
+        Set lighting for specific zone.
+
+        :param int zone: Zone id on target device
+        :param int red_percentage: Red percentage in range 0-100
+        :param int green_percentage: Green percentage in range 0-100
+        :param int blue_percentage: Blue percentage in range 0-100
         """
         return self.led_dll.LogiLedSetLightingForTargetZone(
             None, zone, red_percentage, green_percentage, blue_percentage
         )
 
 
-def logi_led_set_target_device(target_device):
+def set_target_device(target_device):
     """sets the target device or device group that is affected by the subsequent lighting calls."""
     if led_dll:
         target_device = ctypes.c_int(target_device)
@@ -290,7 +296,7 @@ def logi_led_set_target_device(target_device):
         return False
 
 
-def logi_led_save_current_lighting():
+def save_current_lighting():
     """saves the current lighting that can be restored later."""
     if led_dll:
         return bool(led_dll.LogiLedSaveCurrentLighting())
@@ -298,7 +304,7 @@ def logi_led_save_current_lighting():
         return False
 
 
-def logi_led_restore_lighting():
+def restore_lighting():
     """restores the last saved lighting."""
     if led_dll:
         return bool(led_dll.LogiLedRestoreLighting())
@@ -306,7 +312,7 @@ def logi_led_restore_lighting():
         return False
 
 
-def logi_led_set_lighting(red_percentage, green_percentage, blue_percentage):
+def set_lighting(red_percentage, green_percentage, blue_percentage):
     """sets the lighting to the color of the combined RGB percentages. note that RGB ranges from 0-255, but this function ranges from 0-100."""
     if led_dll:
         red_percentage = ctypes.c_int(red_percentage)
@@ -321,7 +327,7 @@ def logi_led_set_lighting(red_percentage, green_percentage, blue_percentage):
         return False
 
 
-def logi_led_flash_lighting(
+def flash_lighting(
     red_percentage, green_percentage, blue_percentage, ms_duration, ms_interval
 ):
     """flashes the lighting color of the combined RGB percentages over the specified millisecond duration and millisecond interval.
@@ -345,7 +351,7 @@ def logi_led_flash_lighting(
         return False
 
 
-def logi_led_pulse_lighting(
+def pulse_lighting(
     red_percentage, green_percentage, blue_percentage, ms_duration, ms_interval
 ):
     """pulses the lighting color of the combined RGB percentages over the specified millisecond duration and millisecond interval.
@@ -369,7 +375,7 @@ def logi_led_pulse_lighting(
         return False
 
 
-def logi_led_stop_effects():
+def stop_effects():
     """stops the pulse and flash effects."""
     if led_dll:
         return bool(led_dll.LogiLedStopEffects())
@@ -377,7 +383,7 @@ def logi_led_stop_effects():
         return False
 
 
-def logi_led_set_lighting_from_bitmap(bitmap):
+def set_lighting_from_bitmap(bitmap):
     """sets the color of each key in a 21x6 rectangular area specified by the BGRA byte array bitmap. each element corresponds to the physical location of each key.
     note that the color bit order is BGRA rather than standard RGBA bit order. this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
     if led_dll:
@@ -387,7 +393,7 @@ def logi_led_set_lighting_from_bitmap(bitmap):
         return False
 
 
-def logi_led_set_lighting_for_key_with_scan_code(
+def set_lighting_for_key_with_scan_code(
     key_code, red_percentage, green_percentage, blue_percentage
 ):
     """sets the lighting to the color of the combined RGB percentages for the specified key code. note that RGB ranges from 0-255, but this function ranges from 0-100.
@@ -406,7 +412,7 @@ def logi_led_set_lighting_for_key_with_scan_code(
         return False
 
 
-def logi_led_set_lighting_for_key_with_hid_code(
+def set_lighting_for_key_with_hid_code(
     key_code, red_percentage, green_percentage, blue_percentage
 ):
     """sets the lighting to the color of the combined RGB percentages for the specified key code. note that RGB ranges from 0-255, but this function ranges from 0-100.
@@ -425,7 +431,7 @@ def logi_led_set_lighting_for_key_with_hid_code(
         return False
 
 
-def logi_led_set_lighting_for_key_with_quartz_code(
+def set_lighting_for_key_with_quartz_code(
     key_code, red_percentage, green_percentage, blue_percentage
 ):
     """sets the lighting to the color of the combined RGB percentages for the specified key code. note that RGB ranges from 0-255, but this function ranges from 0-100.
@@ -444,7 +450,7 @@ def logi_led_set_lighting_for_key_with_quartz_code(
         return False
 
 
-def logi_led_set_lighting_for_key_with_key_name(
+def set_lighting_for_key_with_key_name(
     key_name, red_percentage, green_percentage, blue_percentage
 ):
     """sets the lighting to the color of the combined RGB percentages for the specified key name. note that RGB ranges from 0-255, but this function ranges from 0-100.
@@ -463,7 +469,7 @@ def logi_led_set_lighting_for_key_with_key_name(
         return False
 
 
-def logi_led_save_lighting_for_key(key_name):
+def save_lighting_for_key(key_name):
     """saves the current lighting for the specified key name that can be restored later. this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
     if led_dll:
         key_name = ctypes.c_int(key_name)
@@ -472,7 +478,7 @@ def logi_led_save_lighting_for_key(key_name):
         return False
 
 
-def logi_led_restore_lighting_for_key(key_name):
+def restore_lighting_for_key(key_name):
     """restores the last saved lighting for the specified key name. this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
     if led_dll:
         key_name = ctypes.c_int(key_name)
@@ -481,7 +487,7 @@ def logi_led_restore_lighting_for_key(key_name):
         return False
 
 
-def logi_led_flash_single_key(
+def flash_single_key(
     key_name,
     red_percentage,
     green_percentage,
@@ -513,7 +519,7 @@ def logi_led_flash_single_key(
         return False
 
 
-def logi_led_pulse_single_key(
+def pulse_single_key(
     key_name,
     red_percentage_start,
     green_percentage_start,
@@ -555,7 +561,7 @@ def logi_led_pulse_single_key(
         return False
 
 
-def logi_led_stop_effects_on_key(key_name):
+def stop_effects_on_key(key_name):
     """stops the pulse and flash effects on a single key."""
     if led_dll:
         key_name = ctypes.c_int(key_name)
@@ -564,10 +570,11 @@ def logi_led_stop_effects_on_key(key_name):
         return False
 
 
-def logi_led_get_config_option_number(key, default=0):
-    """get the default value for the key as a number. if the call fails, the return value is None.
+def get_config_option_number(key, default=0):
+    """
+    get the default value for the key as a number. if the call fails, the return value is None.
     for example, get the low health threshold:
-     logi_led_get_config_option_number('health/low_health_threshold', 20.0)"""
+    logi_led_get_config_option_number('health/low_health_threshold', 20.0)"""
     if led_dll:
         key = ctypes.c_wchar_p(key)
         default = ctypes.c_double(default)
@@ -578,10 +585,11 @@ def logi_led_get_config_option_number(key, default=0):
     return None
 
 
-def logi_led_get_config_option_bool(key, default=False):
-    """get the default value for the key as a bool. if the call fails, the return value is None.
+def get_config_option_bool(key, default=False):
+    """
+    get the default value for the key as a bool. if the call fails, the return value is None.
     for example, check if the effect is enabled:
-     logi_led_get_config_option_bool('health/pulse_on_low', True)"""
+    logi_led_get_config_option_bool('health/pulse_on_low', True)"""
     if led_dll:
         key = ctypes.c_wchar_p(key)
         default = ctypes.c_bool(default)
@@ -592,14 +600,16 @@ def logi_led_get_config_option_bool(key, default=False):
     return None
 
 
-def logi_led_get_config_option_color(key, *args):
-    """get the default value for the key as a color. if the call fails, the return value is None.
-     note this function can either be called with red_percentage, green_percentage, and blue_percentage or with the logi_led Color object.
+def get_config_option_color(key, *args):
+    """
+    get the default value for the key as a color. if the call fails, the return value is None.
+    note this function can either be called with red_percentage, green_percentage, and blue_percentage or with the logi_led Color object.
     for example, get the low health color:
-     logi_led_get_config_option_color('health/pulse_color', 100, 0, 0)
-     logi_led_get_config_option_color('health/pulse_color', Color('red'))
-     logi_led_get_config_option_color('health/pulse_color', Color('#ff0000'))
-     logi_led_get_config_option_color('health/pulse_color', Color(255, 0, 0))"""
+    logi_led_get_config_option_color('health/pulse_color', 100, 0, 0)
+    logi_led_get_config_option_color('health/pulse_color', Color('red'))
+    logi_led_get_config_option_color('health/pulse_color', Color('#ff0000'))
+    logi_led_get_config_option_color('health/pulse_color', Color(255, 0, 0))
+    """
     if led_dll:
         key = ctypes.c_wchar_p(key)
         default = None
@@ -631,10 +641,11 @@ def logi_led_get_config_option_color(key, *args):
     return None
 
 
-def logi_led_get_config_option_key_input(key, default=""):
-    """get the default value for the key as a key input. if the call fails, the return value is None.
+def get_config_option_key_input(key, default=""):
+    """
+    get the default value for the key as a key input. if the call fails, the return value is None.
     for example, get the primary ability key input:
-     logi_led_get_config_option_key_input('abilities/primary', 'A')"""
+    logi_led_get_config_option_key_input('abilities/primary', 'A')"""
     if led_dll:
         key = ctypes.c_wchar_p(key)
         default_key = ctypes.create_string_buffer(256)
@@ -644,11 +655,12 @@ def logi_led_get_config_option_key_input(key, default=""):
     return None
 
 
-def logi_led_set_config_option_label(key, label):
-    """set the label for a key.
+def set_config_option_label(key, label):
+    """
+    set the label for a key.
     for example, label 'health/pulse_on_low' as 'Health - Pulse on Low':
-     logi_led_set_config_option_label('health', 'Health')
-     logi_led_set_config_option_label('health/pulse_on_low', 'Pulse on Low')"""
+    logi_led_set_config_option_label('health', 'Health')
+    logi_led_set_config_option_label('health/pulse_on_low', 'Pulse on Low')"""
     if led_dll:
         key = ctypes.c_wchar_p(key)
         label = ctypes.c_wchar_p(label)
