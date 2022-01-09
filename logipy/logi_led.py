@@ -243,7 +243,10 @@ class Color:
 
 
 class LogitechLed:
-    """A main function"""
+    """
+    **Warning** : All function in this class return True if succeeds. The function will return False if the connection with Logitech Gaming Software was lost.
+
+    """
 
     def __init__(self):
         self._initialize_sdk()
@@ -264,7 +267,10 @@ class LogitechLed:
             )
 
     def shutdown(self):
-        """Shutdown SDK for current thread"""
+        """
+        The function restores the last saved lighting and frees memory used by the SDK.
+        """
+
         return bool(self.led_dll.LogiLedShutdown())
 
     def set_lighting_for_target_zone(
@@ -275,54 +281,72 @@ class LogitechLed:
         blue_percentage=0,
     ):
         """
-        Set lighting for specific zone.
+        The function sets lighting on a specific zone for all connected zonal devices that match the device type
 
         :param int zone: Zone id on target device
         :param int red_percentage: Red percentage in range 0-100
         :param int green_percentage: Green percentage in range 0-100
         :param int blue_percentage: Blue percentage in range 0-100
+
         """
-        return self.led_dll.LogiLedSetLightingForTargetZone(
-            None, zone, red_percentage, green_percentage, blue_percentage
+
+        return bool(
+            self.led_dll.LogiLedSetLightingForTargetZone(
+                None, zone, red_percentage, green_percentage, blue_percentage
+            )
+        )
+
+    def save_current_lighting(self):
+        """
+        The function saves the current lighting so that it can be restored after a temporary effect is finished.
+        On per-key backlighting supporting devices, this function will save the current state for each key.
+        """
+        return bool(self.led_dll.LogiLedSaveCurrentLighting())
+
+    def set_lighting(self, red_percentage, green_percentage, blue_percentage):
+        """
+        The function sets the lighting on connected and supported devices.
+
+        :param int red_percentage: Amount of red. Range is 0 to 100.
+        :param int green_percentage: Green percentage in range 0-100
+        :param int blue_percentage: Blue percentage in range 0-100
+
+
+        """
+        # red_percentage = ctypes.c_int(red_percentage)
+        # green_percentage = ctypes.c_int(green_percentage)
+        # blue_percentage = ctypes.c_int(blue_percentage)
+        return bool(
+            self.led_dll.LogiLedSetLighting(
+                red_percentage, green_percentage, blue_percentage
+            )
         )
 
 
-def set_target_device(target_device):
-    """sets the target device or device group that is affected by the subsequent lighting calls."""
-    if led_dll:
+class NotImplemented:
+    """
+    A list of function not tested, can be used but not sure than it's work fine.
+    """
+
+    def set_target_device(self, target_device):
+        """
+        The function sets the target device type for future calls.
+        The default target device is LOGI_DEVICETYPE_ALL, therefore, if no call is made to LogiLedSetTargetDevice the SDK will apply any function to all the connected devices.
+
+        :param int target_device:
+
+        :return: If the function succeeds, it returns *True*. Otherwise *False*.
+                The function will return False if the connection with Logitech Gaming Software was lost.
+        """
+
         target_device = ctypes.c_int(target_device)
         return bool(led_dll.LogiLedSetTargetDevice(target_device))
-    else:
-        return False
-
-
-def save_current_lighting():
-    """saves the current lighting that can be restored later."""
-    if led_dll:
-        return bool(led_dll.LogiLedSaveCurrentLighting())
-    else:
-        return False
 
 
 def restore_lighting():
     """restores the last saved lighting."""
     if led_dll:
         return bool(led_dll.LogiLedRestoreLighting())
-    else:
-        return False
-
-
-def set_lighting(red_percentage, green_percentage, blue_percentage):
-    """sets the lighting to the color of the combined RGB percentages. note that RGB ranges from 0-255, but this function ranges from 0-100."""
-    if led_dll:
-        red_percentage = ctypes.c_int(red_percentage)
-        green_percentage = ctypes.c_int(green_percentage)
-        blue_percentage = ctypes.c_int(blue_percentage)
-        return bool(
-            led_dll.LogiLedSetLighting(
-                red_percentage, green_percentage, blue_percentage
-            )
-        )
     else:
         return False
 

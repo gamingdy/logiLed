@@ -12,6 +12,8 @@ import random
 
 print("Initialize...")
 logi_led = LogitechLed()
+b = logi_led.set_lighting(0, 100, 0)
+print(b)
 # logi_led.logi_led_pulse_lighting(100, 100, 100, 3000, 500)
 # time.sleep(3)
 # logi_led.logi_led_set_lighting_for_target_zone(0, 0, 100, 0)
