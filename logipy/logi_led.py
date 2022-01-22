@@ -325,7 +325,7 @@ class LogitechLed:
 
 class NotImplemented:
     """
-    A list of function not tested, can be used but not sure than it's work fine.
+    A list of function not tested, which can be used but are not sure if they work properly.
     """
 
     def set_target_device(self, target_device):
