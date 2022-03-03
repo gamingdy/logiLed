@@ -263,6 +263,10 @@ class LogitechLed:
                 "You must start Logitech GHUB before using the Logipy packages"
             )
 
+    def _verify_type(self, arg_list):
+        for arg in arg_list:
+            pass
+
     def shutdown(self):
         """
         The function restores the last saved lighting and frees memory used by the SDK.
@@ -281,9 +285,9 @@ class LogitechLed:
         The function sets lighting on a specific zone for all connected zonal devices that match the device type
 
         :param int zone: Zone id on target device
-        :param int red_percentage: Red percentage in range 0-100
-        :param int green_percentage: Green percentage in range 0-100
-        :param int blue_percentage: Blue percentage in range 0-100
+        :param int red_percentage: Amount of red. **Range is 0 to 100**.
+        :param int green_percentage: Amount of green. **Range is 0 to 100**.
+        :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
         """
 
@@ -304,47 +308,20 @@ class LogitechLed:
         """
         The function sets the lighting on connected and supported devices.
 
-        :param int red_percentage: Amount of red. Range is 0 to 100.
-        :param int green_percentage: Green percentage in range 0-100
-        :param int blue_percentage: Blue percentage in range 0-100
+        :param int red_percentage: Amount of red. **Range is 0 to 100**.
+        :param int green_percentage: Amount of green. **Range is 0 to 100**.
+        :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
 
         """
-        # red_percentage = ctypes.c_int(red_percentage)
-        # green_percentage = ctypes.c_int(green_percentage)
-        # blue_percentage = ctypes.c_int(blue_percentage)
+        red_percentage = ctypes.c_int(red_percentage)
+        green_percentage = ctypes.c_int(green_percentage)
+        blue_percentage = ctypes.c_int(blue_percentage)
         return bool(
             self.led_dll.LogiLedSetLighting(
                 red_percentage, green_percentage, blue_percentage
             )
         )
-
-
-class NotImplemented:
-    """
-    A list of function not tested, which can be used but are not sure if they work properly.
-    """
-
-    def set_target_device(self, target_device):
-        """
-        The function sets the target device type for future calls.
-        The default target device is LOGI_DEVICETYPE_ALL, therefore, if no call is made to LogiLedSetTargetDevice the SDK will apply any function to all the connected devices.
-
-        :param int target_device:
-
-        :return: If the function succeeds, it returns *True*. Otherwise *False*.
-                The function will return False if the connection with Logitech Gaming Software was lost.
-        """
-
-        target_device = ctypes.c_int(target_device)
-        return bool(led_dll.LogiLedSetTargetDevice(target_device))
-
-    def restore_lighting(self):
-        """restores the last saved lighting."""
-        if led_dll:
-            return bool(led_dll.LogiLedRestoreLighting())
-        else:
-            return False
 
     def flash_lighting(
         self,
@@ -354,16 +331,20 @@ class NotImplemented:
         ms_duration,
         ms_interval,
     ):
-        """flashes the lighting color of the combined RGB percentages over the specified millisecond duration and millisecond interval.
-        specifying a duration of 0 will cause the effect to be infinite until reset. note that RGB ranges from 0-255, but this function ranges from 0-100."""
-        if led_dll:
-            red_percentage = ctypes.c_int(red_percentage)
-            green_percentage = ctypes.c_int(green_percentage)
-            blue_percentage = ctypes.c_int(blue_percentage)
-            ms_duration = ctypes.c_int(ms_duration)
-            ms_interval = ctypes.c_int(ms_interval)
+        """
+        The function plays the flashing effect on the targeted devices
+
+        :param int red_percentage: Amount of red. **Range is 0 to 100**.
+        :param int green_percentage: Amount of green. **Range is 0 to 100**.
+        :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
+        :param int ms_duration: Duration of effect in millisecond
+
+        flashes the lighting color of the combined RGB percentages over the specified millisecond duration and millisecond interval.
+        specifying a duration of 0 will cause the effect to be infinite until reset. note that RGB ranges from 0-255, but this function ranges from 0-100.
+        """
+        if self.led_dll:
             return bool(
-                led_dll.LogiLedFlashLighting(
+                self.led_dll.LogiLedFlashLighting(
                     red_percentage,
                     green_percentage,
                     blue_percentage,
@@ -384,14 +365,14 @@ class NotImplemented:
     ):
         """pulses the lighting color of the combined RGB percentages over the specified millisecond duration and millisecond interval.
         specifying a duration of 0 will cause the effect to be infinite until reset. note that RGB ranges from 0-255, but this function ranges from 0-100."""
-        if led_dll:
+        if self.led_dll:
             red_percentage = ctypes.c_int(red_percentage)
             green_percentage = ctypes.c_int(green_percentage)
             blue_percentage = ctypes.c_int(blue_percentage)
             ms_duration = ctypes.c_int(ms_duration)
             ms_interval = ctypes.c_int(ms_interval)
             return bool(
-                led_dll.LogiLedPulseLighting(
+                self.led_dll.LogiLedPulseLighting(
                     red_percentage,
                     green_percentage,
                     blue_percentage,
@@ -402,9 +383,61 @@ class NotImplemented:
         else:
             return False
 
+
+class NotImplemented:
+    """
+    A list of function not tested, which can be used but are not sure if they work properly.
+    """
+
+    def __init__(self):
+        self._initialize_sdk()
+
+    def _load_dll(self):
+        prev_cwd = Path(__file__).parent
+        path_dll = f"{prev_cwd}/dll/LogitechLedEnginesWrapper.dll"
+        if os.path.exists(path_dll):
+            return ctypes.cdll.LoadLibrary(path_dll)
+        else:
+            raise SDKNotFoundException("The SDK DLL was not found.")
+
+    def _initialize_sdk(self):
+        self.led_dll = self._load_dll()
+        if not bool(self.led_dll.LogiLedInit()):
+            raise LGHUBNotLaunched(
+                "You must start Logitech GHUB before using the Logipy packages"
+            )
+
+    def shutdown(self):
+        """
+        The function restores the last saved lighting and frees memory used by the SDK.
+        """
+
+        return bool(self.led_dll.LogiLedShutdown())
+
+    def set_target_device(self, target_device):
+        """
+        The function sets the target device type for future calls.
+        The default target device is LOGI_DEVICETYPE_ALL, therefore, if no call is made to LogiLedSetTargetDevice the SDK will apply any function to all the connected devices.
+
+        :param int target_device:
+
+        :return: If the function succeeds, it returns *True*. Otherwise *False*.
+                The function will return False if the connection with Logitech Gaming Software was lost.
+        """
+
+        target_device = ctypes.c_int(target_device)
+        return bool(led_dll.LogiLedSetTargetDevice(target_device))
+
+    def restore_lighting(self):
+        """restores the last saved lighting."""
+        if self.led_dll:
+            return bool(led_dll.LogiLedRestoreLighting())
+        else:
+            return False
+
     def stop_effects(self):
         """stops the pulse and flash effects."""
-        if led_dll:
+        if self.led_dll:
             return bool(led_dll.LogiLedStopEffects())
         else:
             return False
@@ -412,7 +445,7 @@ class NotImplemented:
     def set_lighting_from_bitmap(self, bitmap):
         """sets the color of each key in a 21x6 rectangular area specified by the BGRA byte array bitmap. each element corresponds to the physical location of each key.
         note that the color bit order is BGRA rather than standard RGBA bit order. this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
-        if led_dll:
+        if self.led_dll:
             bitmap = ctypes.c_char_p(bitmap)
             return bool(led_dll.LogiLedSetLightingFromBitmap(bitmap))
         else:
@@ -423,7 +456,7 @@ class NotImplemented:
     ):
         """sets the lighting to the color of the combined RGB percentages for the specified key code. note that RGB ranges from 0-255, but this function ranges from 0-100.
         this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
-        if led_dll:
+        if self.led_dll:
             key_code = ctypes.c_int(key_code)
             red_percentage = ctypes.c_int(red_percentage)
             green_percentage = ctypes.c_int(green_percentage)
@@ -441,7 +474,7 @@ class NotImplemented:
     ):
         """sets the lighting to the color of the combined RGB percentages for the specified key code. note that RGB ranges from 0-255, but this function ranges from 0-100.
         this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
-        if led_dll:
+        if self.led_dll:
             key_code = ctypes.c_int(key_code)
             red_percentage = ctypes.c_int(red_percentage)
             green_percentage = ctypes.c_int(green_percentage)
@@ -459,7 +492,7 @@ class NotImplemented:
     ):
         """sets the lighting to the color of the combined RGB percentages for the specified key code. note that RGB ranges from 0-255, but this function ranges from 0-100.
         this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
-        if led_dll:
+        if self.led_dll:
             key_code = ctypes.c_int(key_code)
             red_percentage = ctypes.c_int(red_percentage)
             green_percentage = ctypes.c_int(green_percentage)
@@ -477,7 +510,7 @@ class NotImplemented:
     ):
         """sets the lighting to the color of the combined RGB percentages for the specified key name. note that RGB ranges from 0-255, but this function ranges from 0-100.
         this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
-        if led_dll:
+        if self.led_dll:
             key_name = ctypes.c_int(key_name)
             red_percentage = ctypes.c_int(red_percentage)
             green_percentage = ctypes.c_int(green_percentage)
@@ -492,7 +525,7 @@ class NotImplemented:
 
     def save_lighting_for_key(self, key_name):
         """saves the current lighting for the specified key name that can be restored later. this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
-        if led_dll:
+        if self.led_dll:
             key_name = ctypes.c_int(key_name)
             return bool(led_dll.LogiLedSaveLightingForKey(key_name))
         else:
@@ -500,7 +533,7 @@ class NotImplemented:
 
     def restore_lighting_for_key(self, key_name):
         """restores the last saved lighting for the specified key name. this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
-        if led_dll:
+        if self.led_dll:
             key_name = ctypes.c_int(key_name)
             return bool(led_dll.LogiLedRestoreLightingForKey(key_name))
         else:
@@ -518,7 +551,7 @@ class NotImplemented:
         """flashes the lighting color of the combined RGB percentages over the specified millisecond duration and millisecond interval for the specified key name.
         specifying a duration of 0 will cause the effect to be infinite until reset. note that RGB ranges from 0-255, but this function ranges from 0-100.
         this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
-        if led_dll:
+        if self.led_dll:
             key_name = ctypes.c_int(key_name)
             red_percentage = ctypes.c_int(red_percentage)
             green_percentage = ctypes.c_int(green_percentage)
@@ -554,7 +587,7 @@ class NotImplemented:
         the color will gradually change from the starting color to the ending color. if no ending color is specified, the ending color will be black.
         the effect will stop after one interval unless is_infinite is set to True. note that RGB ranges from 0-255, but this function ranges from 0-100.
         this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
-        if led_dll:
+        if self.led_dll:
             key_name = ctypes.c_int(key_name)
             red_percentage_start = ctypes.c_int(red_percentage_start)
             green_percentage_start = ctypes.c_int(green_percentage_start)
@@ -582,7 +615,7 @@ class NotImplemented:
 
     def stop_effects_on_key(self, key_name):
         """stops the pulse and flash effects on a single key."""
-        if led_dll:
+        if self.led_dll:
             key_name = ctypes.c_int(key_name)
             return bool(led_dll.LogiLedStopEffectsOnKey(key_name))
         else:
@@ -593,7 +626,7 @@ class NotImplemented:
         get the default value for the key as a number. if the call fails, the return value is None.
         for example, get the low health threshold:
         logi_led_get_config_option_number('health/low_health_threshold', 20.0)"""
-        if led_dll:
+        if self.led_dll:
             key = ctypes.c_wchar_p(key)
             default = ctypes.c_double(default)
             if led_dll.LogiGetConfigOptionNumber(
@@ -607,7 +640,7 @@ class NotImplemented:
         get the default value for the key as a bool. if the call fails, the return value is None.
         for example, check if the effect is enabled:
         logi_led_get_config_option_bool('health/pulse_on_low', True)"""
-        if led_dll:
+        if self.led_dll:
             key = ctypes.c_wchar_p(key)
             default = ctypes.c_bool(default)
             if led_dll.LogiGetConfigOptionBool(
@@ -626,7 +659,7 @@ class NotImplemented:
         logi_led_get_config_option_color('health/pulse_color', Color('#ff0000'))
         logi_led_get_config_option_color('health/pulse_color', Color(255, 0, 0))
         """
-        if led_dll:
+        if self.led_dll:
             key = ctypes.c_wchar_p(key)
             default = None
             red_percentage = 0
@@ -661,7 +694,7 @@ class NotImplemented:
         get the default value for the key as a key input. if the call fails, the return value is None.
         for example, get the primary ability key input:
         logi_led_get_config_option_key_input('abilities/primary', 'A')"""
-        if led_dll:
+        if self.led_dll:
             key = ctypes.c_wchar_p(key)
             default_key = ctypes.create_string_buffer(256)
             default_key.value = default
@@ -677,7 +710,7 @@ class NotImplemented:
         for example, label 'health/pulse_on_low' as 'Health - Pulse on Low':
         logi_led_set_config_option_label('health', 'Health')
         logi_led_set_config_option_label('health/pulse_on_low', 'Pulse on Low')"""
-        if led_dll:
+        if self.led_dll:
             key = ctypes.c_wchar_p(key)
             label = ctypes.c_wchar_p(label)
             return bool(
