@@ -269,7 +269,7 @@ class LogitechLed:
 
     def shutdown(self):
         """
-        The function restores the last saved lighting and frees memory used by the SDK.
+        Restores the last saved lighting and frees memory used by the SDK.
         """
 
         return bool(self.led_dll.LogiLedShutdown())
@@ -282,7 +282,7 @@ class LogitechLed:
         blue_percentage=0,
     ):
         """
-        The function sets lighting on a specific zone for all connected zonal devices that match the device type
+        Sets lighting on a specific zone for all connected zonal devices that match the device type
 
         :param int zone: Zone id on target device
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
@@ -299,14 +299,14 @@ class LogitechLed:
 
     def save_current_lighting(self):
         """
-        The function saves the current lighting so that it can be restored after a temporary effect is finished.
+        Saves the current lighting so that it can be restored after a temporary effect is finished.
         On per-key backlighting supporting devices, this function will save the current state for each key.
         """
         return bool(self.led_dll.LogiLedSaveCurrentLighting())
 
     def set_lighting(self, red_percentage, green_percentage, blue_percentage):
         """
-        The function sets the lighting on connected and supported devices.
+        Sets the lighting on connected and supported devices.
 
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
@@ -332,7 +332,7 @@ class LogitechLed:
         ms_interval,
     ):
         """
-        The function plays the flashing effect on the targeted devices
+        Plays the flashing effect on the targeted devices
 
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
