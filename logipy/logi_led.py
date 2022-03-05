@@ -337,10 +337,12 @@ class LogitechLed:
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
-        :param int ms_duration: Duration of effect in millisecond
+        :param int ms_duration: Duration of effect in millisecond.
 
-        flashes the lighting color of the combined RGB percentages over the specified millisecond duration and millisecond interval.
-        specifying a duration of 0 will cause the effect to be infinite until reset. note that RGB ranges from 0-255, but this function ranges from 0-100.
+        .. tip::
+            Specifying a duration of 0 will cause the effect to be infinite until reset
+
+        :param int ms_interval: Interval duration between each effect in millisecond.
         """
         if self.led_dll:
             return bool(

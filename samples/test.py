@@ -12,7 +12,7 @@ import random
 
 print("Initialize...")
 logi_led = LogitechLed()
-b = logi_led.flash_lighting(0, 2**65, 0, 5000, 500)
+b = logi_led.flash_lighting(0, 100, 0, 0, 500)
 # logi_led_test = NotImplemented()
 
 # b = logi_led_test.pulse_lighting(0, 100, 0, 5000, 500)
