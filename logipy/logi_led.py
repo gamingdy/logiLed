@@ -332,7 +332,7 @@ class LogitechLed:
         ms_interval,
     ):
         """
-        Plays the flashing effect on the targeted devices
+        Plays the flashing effect on the targeted devices by combining the RGB percentages, for a defined duration in milliseconds with a given interval.
 
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
