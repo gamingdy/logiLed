@@ -246,22 +246,7 @@ class LogitechLed:
     """
 
     def __init__(self):
-        self._initialize_sdk()
-
-    def _load_dll(self):
-        prev_cwd = Path(__file__).parent
-        path_dll = f"{prev_cwd}/dll/LogitechLedEnginesWrapper.dll"
-        if os.path.exists(path_dll):
-            return ctypes.cdll.LoadLibrary(path_dll)
-        else:
-            raise SDKNotFoundException("The SDK DLL was not found.")
-
-    def _initialize_sdk(self):
-        self.led_dll = self._load_dll()
-        if not bool(self.led_dll.LogiLedInit()):
-            raise LGHUBNotLaunched(
-                "You must start Logitech GHUB before using the Logipy packages"
-            )
+        self.led_dll = led_dll
 
     def _verify_type(self, arg_list):
         for arg in arg_list:
@@ -403,22 +388,7 @@ class NotImplemented:
     """
 
     def __init__(self):
-        self._initialize_sdk()
-
-    def _load_dll(self):
-        prev_cwd = Path(__file__).parent
-        path_dll = f"{prev_cwd}/dll/LogitechLedEnginesWrapper.dll"
-        if os.path.exists(path_dll):
-            return ctypes.cdll.LoadLibrary(path_dll)
-        else:
-            raise SDKNotFoundException("The SDK DLL was not found.")
-
-    def _initialize_sdk(self):
-        self.led_dll = self._load_dll()
-        if not bool(self.led_dll.LogiLedInit()):
-            raise LGHUBNotLaunched(
-                "You must start Logitech GHUB before using the Logipy packages"
-            )
+        self.led_dll = led_dll
 
     def shutdown(self):
         """
@@ -731,3 +701,20 @@ class NotImplemented:
             )
         else:
             return False
+
+
+def load_dll():
+    prev_cwd = Path(__file__).parent
+    path_dll = f"{prev_cwd}/dll/LogitechLedEnginesWrapper.dll"
+    if os.path.exists(path_dll):
+        led_dll = ctypes.cdll.LoadLibrary(path_dll)
+        if not bool(led_dll.LogiLedInit()):
+            raise LGHUBNotLaunched(
+                "You must start Logitech GHUB before using the Logipy packages"
+            )
+        return led_dll
+    else:
+        raise SDKNotFoundException("The SDK DLL was not found.")
+
+
+led_dll = load_dll()
