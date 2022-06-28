@@ -358,6 +358,13 @@ class LogitechLed:
         else:
             return False
 
+    def stop_effects(self):
+        """stops the pulse and flash effects."""
+        if self.led_dll:
+            return bool(led_dll.LogiLedStopEffects())
+        else:
+            return False
+
 
 class NotImplemented:
     """
@@ -392,13 +399,6 @@ class NotImplemented:
         """restores the last saved lighting."""
         if self.led_dll:
             return bool(led_dll.LogiLedRestoreLighting())
-        else:
-            return False
-
-    def stop_effects(self):
-        """stops the pulse and flash effects."""
-        if self.led_dll:
-            return bool(led_dll.LogiLedStopEffects())
         else:
             return False
 
