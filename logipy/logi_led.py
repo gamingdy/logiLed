@@ -374,13 +374,6 @@ class NotImplemented:
     def __init__(self):
         self.led_dll = led_dll
 
-    def shutdown(self):
-        """
-        The function restores the last saved lighting and frees memory used by the SDK.
-        """
-
-        return bool(self.led_dll.LogiLedShutdown())
-
     def set_target_device(self, target_device):
         """
         The function sets the target device type for future calls.
