@@ -259,29 +259,6 @@ class LogitechLed:
 
         return bool(self.led_dll.LogiLedShutdown())
 
-    def set_lighting_for_target_zone(
-        self,
-        zone=0,
-        red_percentage=0,
-        green_percentage=0,
-        blue_percentage=0,
-    ):
-        """
-        Sets lighting on a specific zone for all connected zonal devices that match the device type
-
-        :param int zone: Zone id on target device
-        :param int red_percentage: Amount of red. **Range is 0 to 100**.
-        :param int green_percentage: Amount of green. **Range is 0 to 100**.
-        :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
-
-        """
-
-        return bool(
-            self.led_dll.LogiLedSetLightingForTargetZone(
-                None, zone, red_percentage, green_percentage, blue_percentage
-            )
-        )
-
     def save_current_lighting(self):
         """
         Saves the current lighting so that it can be restored after a temporary effect is finished.
@@ -701,6 +678,29 @@ class NotImplemented:
             )
         else:
             return False
+
+    def set_lighting_for_target_zone(
+        self,
+        zone=0,
+        red_percentage=0,
+        green_percentage=0,
+        blue_percentage=0,
+    ):
+        """
+        Sets lighting on a specific zone for all connected zonal devices that match the device type
+
+        :param int zone: Zone id on target device
+        :param int red_percentage: Amount of red. **Range is 0 to 100**.
+        :param int green_percentage: Amount of green. **Range is 0 to 100**.
+        :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
+
+        """
+
+        return bool(
+            self.led_dll.LogiLedSetLightingForTargetZone(
+                None, zone, red_percentage, green_percentage, blue_percentage
+            )
+        )
 
 
 def load_dll():
