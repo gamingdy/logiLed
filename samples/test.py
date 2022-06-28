@@ -12,11 +12,11 @@ import random
 
 print("Initialize...")
 logi_led = LogitechLed()
-b = logi_led.pulse_lighting(0, 100, 0, 0, 500)
-# logi_led_test = NotImplemented()
+b = logi_led.pulse_lighting(50, 100, 0, 0, 500)
+time.sleep(5)
+logi_led_test = NotImplemented()
 
-# b = logi_led_test.pulse_lighting(0, 100, 0, 5000, 500)
-print(b)
+b = logi_led_test.stop_effects()
 
 input("Press enter to shutdown SDK...")
 logi_led.shutdown()

@@ -359,7 +359,7 @@ class LogitechLed:
             return False
 
     def stop_effects(self):
-        """stops the pulse and flash effects."""
+        """Stops any of the presets effects (started from LogiLedFlashLighting or LogiLedPulseLighting)."""
         if self.led_dll:
             return bool(led_dll.LogiLedStopEffects())
         else:
