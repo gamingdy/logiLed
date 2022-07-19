@@ -14,7 +14,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Install package
-        run: pip install doc_generator/requirements.txt
+        run: pip install -r doc_generator/requirements.txt
 
       - name: Generate doc
         run: sphinx-build doc_generator\source docs
