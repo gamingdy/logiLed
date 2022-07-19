@@ -4,4 +4,4 @@ requires = ["setuptools","sphinx","sphinx-rtd-theme"]
 [project]
 name = "logiPy"
 authors = [{name = "Gamingdy"}]
-dynamic = ["0.1", "description"]
+dynamic = ["version", "description"]
