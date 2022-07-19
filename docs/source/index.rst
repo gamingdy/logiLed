@@ -6,5 +6,5 @@
 Welcome to logiPy's documentation!
 ==================================
 
-.. automodule:: logi_led
-   :members:
+.. autoclass:: logi_led.LogitechLed
+     :members:
