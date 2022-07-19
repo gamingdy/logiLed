@@ -2,10 +2,9 @@ name: Auto doc
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "master" ]
 
-  workflow_dispatch:
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
