@@ -17,4 +17,4 @@ jobs:
         run: pip install -r doc_generator/requirements.txt
 
       - name: Generate doc
-        run: sphinx-build doc_generator\source docs
+        run: sphinx-build doc_generator/source docs
