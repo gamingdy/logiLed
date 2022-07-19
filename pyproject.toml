@@ -1,5 +1,5 @@
 [build-system]
-requires = ["sphinx","sphinx-rtd-theme"]
+requires = ["setuptools","sphinx","sphinx-rtd-theme"]
 
 [project]
 name = "logiPy"
