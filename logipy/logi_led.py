@@ -80,8 +80,7 @@ class Color:
             self.blue = blue
             self.alpha = alpha
         self.hex_code = "#{h}".format(
-            h=struct.pack("BBB", *(self.red, self.green,
-                          self.blue)).encode("hex")
+            h=struct.pack("BBB", *(self.red, self.green, self.blue)).encode("hex")
         )
 
     def rgb_percent(self):
@@ -95,7 +94,8 @@ class Color:
 class LogitechLed:
     """
     .. important::
-        All function in this class **return True if succeeds**. The function will **return False if the connection with Logitech Gaming Software was lost**.
+        All function in this class **return True if succeeds**. The function will **return False if the connection with
+        Logitech Gaming Software was lost**.
 
     """
 
@@ -116,7 +116,9 @@ class LogitechLed:
     def save_current_lighting(self):
         """
         Saves the current lighting so that it can be restored after a temporary effect is finished.
-        On per-key backlighting supporting devices, this function will save the current state for each key.
+
+        .. note::
+            On per-key backlighting supporting devices, this function will save the current state for each key.
         """
         return bool(self.led_dll.LogiLedSaveCurrentLighting())
 
@@ -148,7 +150,8 @@ class LogitechLed:
         ms_interval,
     ):
         """
-        Plays the flashing effect on the targeted devices by combining the RGB percentages, for a defined duration in milliseconds with a given interval.
+        Plays the flashing effect on the targeted devices by combining the RGB percentages, for a defined duration in
+        milliseconds with a given interval.
 
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
@@ -181,7 +184,8 @@ class LogitechLed:
         ms_interval,
     ):
         """
-        Pulses the lighting color of the combined RGB percentages, for a defined duration in milliseconds with a given interval.
+        Pulses the lighting color of the combined RGB percentages, for a defined duration in milliseconds with a given
+        interval.
 
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
@@ -218,9 +222,9 @@ class LogitechLed:
             return False
 
 
-class NotImplemented:
+class NotTested:
     """
-    A list of function not tested, which can be used but are not sure if they work properly.
+    A list of untested functions, which can be used but for which we are not sure of the correct operation.
     """
 
     def __init__(self):
@@ -236,7 +240,8 @@ class NotImplemented:
         ms_interval,
     ):
         """
-        Plays the flashing effect on the key passed as parameter, by combining the RGB percentages, for a defined duration in milliseconds with a given interval.
+        Plays the flashing effect on the key passed as parameter, by combining the RGB percentages, for a defined
+        duration in milliseconds with a given interval.
 
         **This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB**.
 
@@ -283,7 +288,7 @@ class NotImplemented:
         blue_percentage_end=0,
     ):
         """
-        Starts a pulsing effect on the key passed as parameter. 
+        Starts a pulsing effect on the key passed as parameter.
         The key will be pulsing with from start color to finish color for msDuration milliseconds.
 
         **This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB**.
@@ -293,7 +298,9 @@ class NotImplemented:
         :param int green_percentage_start: Amount of green in the start color of the effect. **Range is 0 to 100**.
         :param int blue_percentage_start: Amount of blue in the start color of the effect. **Range is 0 to 100**.
         :param int ms_duration: Duration of effect in millisecond.
-        :param bool is_infinite: If set to True, it will loop infinitely until stopped with a called to :func:`stop_effects_on_key <NotImplemented.stop_effects_on_key>` or :func:`stop_effects <LogitechLed.stop_effects>`
+        :param bool is_infinite: If set to True, it will loop infinitely until stopped with a called to
+                                :func:`stop_effects_on_key <NotImplemented.stop_effects_on_key>` or
+                                :func:`stop_effects <LogitechLed.stop_effects>`
 
         :param int red_percentage_end: Amount of red in the finish color of the effect. **Range is 0 to 100**.
         :param int green_percentage_end: Amount of green in the finish color of the effect. **Range is 0 to 100**.
@@ -329,7 +336,7 @@ class NotImplemented:
         """
         Restores the last saved lighting. It should be called after a temporary effect is finished.
 
-        .. tip::
+        .. note::
             On per-key backlighting supporting devices, this function will restore the saved state for each key
         """
         if self.led_dll:
@@ -339,8 +346,9 @@ class NotImplemented:
 
     def restore_lighting_for_key(self, key_name):
         """
-        Restores the saved color on the key passed as argument. 
-        Use this function with the :func:`save_lighting_for_key <NotImplemented.save_lighting_for_key>` to preserve the state of a key before applying any effect.
+        Restores the saved color on the key passed as argument.
+        Use this function with the :func:`save_lighting_for_key <NotImplemented.save_lighting_for_key>` to preserve
+        the state of a key before applying any effect.
 
         **This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.**
 
@@ -355,8 +363,9 @@ class NotImplemented:
     def save_lighting_for_key(self, key_name):
         """
         Saves the current color on the keycode passed as argument.
-        Use this function with the :func:`restore_lighting_for_key <NotImplemented.restore_lighting_for_key>` to preserve the state of a key before applying any effect.
-        
+        Use this function with the :func:`restore_lighting_for_key <NotImplemented.restore_lighting_for_key>`
+        to preserve the state of a key before applying any effect.
+
         **This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB**.
 
         :param int key_name: The key to save the color for.
@@ -372,8 +381,8 @@ class NotImplemented:
         self, key_code, red_percentage, green_percentage, blue_percentage
     ):
         """
-        Sets the key identified by the hid code passed as parameter to the desired color. 
-        
+        Sets the key identified by the hid code passed as parameter to the desired color.
+
         **This function only affects per-key backlighting featured connected devices**.
 
         :param int key_code: The hid-code of the key to set
@@ -398,9 +407,10 @@ class NotImplemented:
         self, key_name, red_percentage, green_percentage, blue_percentage
     ):
         """
-        Sets the key identified by the code passed as parameter to the desired color. 
-        
-        **This function only affects per-key backlighting featured connected devices**.
+        Sets the key identified by the code passed as parameter to the desired color.
+
+        .. warning::
+            This function only affects per-key backlighting featured connected devices.
 
         :param int key_name: The name of the key to set
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
@@ -423,8 +433,18 @@ class NotImplemented:
     def set_lighting_for_key_with_quartz_code(
         self, key_code, red_percentage, green_percentage, blue_percentage
     ):
-        """sets the lighting to the color of the combined RGB percentages for the specified key code. note that RGB ranges from 0-255, but this function ranges from 0-100.
-        this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
+        """
+        Sets the key identified by the quartz code passed as parameter to the desired color
+
+        .. warning::
+            This function only affects per-key backlighting featured connected devices.
+
+
+        :param int key_code: The quartz-code of the ket to set
+        :param int red_percentage: Amount of red. **Range is 0 to 100**.
+        :param int green_percentage: Amount of green. **Range is 0 to 100**.
+        :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
+        """
         if self.led_dll:
             key_code = ctypes.c_int(key_code)
             red_percentage = ctypes.c_int(red_percentage)
@@ -441,8 +461,17 @@ class NotImplemented:
     def set_lighting_for_key_with_scan_code(
         self, key_code, red_percentage, green_percentage, blue_percentage
     ):
-        """sets the lighting to the color of the combined RGB percentages for the specified key code. note that RGB ranges from 0-255, but this function ranges from 0-100.
-        this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
+        """
+        Sets the key identified by the scancode passed as parameter to the desired color
+
+        .. warning::
+            This function only affects per-key backlighting featured connected devices.
+
+        :param int key_code: The scan-code of the ket to set
+        :param int red_percentage: Amount of red. **Range is 0 to 100**.
+        :param int green_percentage: Amount of green. **Range is 0 to 100**.
+        :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
+        """
         if self.led_dll:
             key_code = ctypes.c_int(key_code)
             red_percentage = ctypes.c_int(red_percentage)
@@ -480,8 +509,14 @@ class NotImplemented:
         )
 
     def set_lighting_from_bitmap(self, bitmap):
-        """sets the color of each key in a 21x6 rectangular area specified by the BGRA byte array bitmap. each element corresponds to the physical location of each key.
-        note that the color bit order is BGRA rather than standard RGBA bit order. this function only applies to LOGI_DEVICETYPE_PERKEY_RGB devices."""
+        """
+        Sets the array of bytes passed as parameter as colors.
+
+        .. warning::
+            This function only affects per-key backlighting featured connected devices.
+
+        :param char bitmap: A unsigned char array containing the colors to assign to each ket
+        """
         if self.led_dll:
             bitmap = ctypes.c_char_p(bitmap)
             return bool(led_dll.LogiLedSetLightingFromBitmap(bitmap))
@@ -491,7 +526,8 @@ class NotImplemented:
     def set_target_device(self, target_device):
         """
         The function sets the target device type for future calls.
-        The default target device is LOGI_DEVICETYPE_ALL, therefore, if no call is made to LogiLedSetTargetDevice the SDK will apply any function to all the connected devices.
+        The default target device is LOGI_DEVICETYPE_ALL, therefore, if no call is made to LogiLedSetTargetDevice
+        the SDK will apply any function to all the connected devices.
 
         :param int target_device:
 
@@ -505,8 +541,9 @@ class NotImplemented:
     def stop_effects_on_key(self, key_name):
         """
         Stops any ongoing effect on the key passed in as parameter.
-        
-        **This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.**
+
+        .. warning::
+            This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.
         """
         if self.led_dll:
             key_name = ctypes.c_int(key_name)
