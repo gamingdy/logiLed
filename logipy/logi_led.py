@@ -243,7 +243,8 @@ class NotTested:
         Plays the flashing effect on the key passed as parameter, by combining the RGB percentages, for a defined
         duration in milliseconds with a given interval.
 
-        **This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB**.
+        .. warning::
+            This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.
 
         :param int key_name: The key to restore the color on.
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
@@ -291,7 +292,8 @@ class NotTested:
         Starts a pulsing effect on the key passed as parameter.
         The key will be pulsing with from start color to finish color for msDuration milliseconds.
 
-        **This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB**.
+        .. warning::
+            This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.
 
         :param int key_name: The key to restore the color on.
         :param int red_percentage_start: Amount of red in the start color of the effect. **Range is 0 to 100**.
@@ -350,7 +352,8 @@ class NotTested:
         Use this function with the :func:`save_lighting_for_key <NotImplemented.save_lighting_for_key>` to preserve
         the state of a key before applying any effect.
 
-        **This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.**
+        .. warning::
+            This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.
 
         :param int key_name: The key to restore the color on.
         """
@@ -366,7 +369,8 @@ class NotTested:
         Use this function with the :func:`restore_lighting_for_key <NotImplemented.restore_lighting_for_key>`
         to preserve the state of a key before applying any effect.
 
-        **This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB**.
+        .. warning::
+            This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.
 
         :param int key_name: The key to save the color for.
 
@@ -383,7 +387,8 @@ class NotTested:
         """
         Sets the key identified by the hid code passed as parameter to the desired color.
 
-        **This function only affects per-key backlighting featured connected devices**.
+        .. warning::
+            This function only affects per-key backlighting featured connected devices.
 
         :param int key_code: The hid-code of the key to set
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
