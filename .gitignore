@@ -3,3 +3,4 @@ __pycache__
 logiPy.code-workspace
 docs
 *.sublime-workspace
+.idea
