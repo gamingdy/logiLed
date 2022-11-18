@@ -4,14 +4,14 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from logipy.logi_led import NotImplemented, LogitechLed, load_dll
+from logipy.logi_led import NotTested, LogitechLed, load_dll
 
 load_dll()
 print("Initialize...")
 logi_led = LogitechLed()
 b = logi_led.pulse_lighting(50, 100, 0, 0, 500)
 time.sleep(5)
-logi_led_test = NotImplemented()
+logi_led_test = NotTested()
 
 b = logi_led.stop_effects()
 
