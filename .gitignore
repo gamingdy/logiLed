@@ -1,6 +1,6 @@
 __pycache__
-.venv
+.venv*
 logiPy.code-workspace
-docs
 *.sublime-workspace
 .idea
+doc/build
