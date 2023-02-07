@@ -1,2 +1,2 @@
 sphinx
-renku-sphinx-theme
+furo
