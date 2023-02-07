@@ -13,10 +13,18 @@ from pathlib import Path
 
 
 class SDKNotFoundException(BaseException):
+    """
+    Raised if the SDK DLL file cannot be found.
+    """
+
     pass
 
 
 class LGHUBNotLaunched(BaseException):
+    """
+    Raised if Logitech G Hub is not launched
+    """
+
     pass
 
 
@@ -93,10 +101,8 @@ class Color:
 
 class LogitechLed:
     """
-    .. important::
-        All function in this class **return True if succeeds**. The function will **return False if the connection with
-        Logitech Gaming Software was lost**.
-
+    .. note::
+        The following class is the main class of library
     """
 
     def __init__(self):
@@ -215,16 +221,40 @@ class LogitechLed:
             return False
 
     def stop_effects(self):
-        """Stops any of the presets effects (started from LogiLedFlashLighting or LogiLedPulseLighting)."""
+        """Stops any of the presets effects (started from :func:`flash_lighting` or :func:`pulse_lighting`)."""
         if self.led_dll:
             return bool(led_dll.LogiLedStopEffects())
         else:
             return False
 
+    def set_lighting_for_target_zone(
+        self,
+        zone=0,
+        red_percentage=0,
+        green_percentage=0,
+        blue_percentage=0,
+    ):
+        """
+        Sets lighting on a specific zone for all connected zonal devices that match the device type
+
+        :param int zone: Zone id on target device
+        :param int red_percentage: Amount of red. **Range is 0 to 100**.
+        :param int green_percentage: Amount of green. **Range is 0 to 100**.
+        :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
+
+        """
+
+        return bool(
+            self.led_dll.LogiLedSetLightingForTargetZone(
+                None, zone, red_percentage, green_percentage, blue_percentage
+            )
+        )
+
 
 class NotTested:
     """
-    A list of untested functions, which can be used but for which we are not sure of the correct operation.
+    .. warning::
+        A list of untested functions, which can be used but for which we are not sure of the correct operation.
     """
 
     def __init__(self):
@@ -244,7 +274,7 @@ class NotTested:
         duration in milliseconds with a given interval.
 
         .. warning::
-            This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.
+            This function only affects per-key backlighting featured connected devices.
 
         :param int key_name: The key to restore the color on.
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
@@ -293,7 +323,7 @@ class NotTested:
         The key will be pulsing with from start color to finish color for msDuration milliseconds.
 
         .. warning::
-            This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.
+            This function only affects per-key backlighting featured connected devices.
 
         :param int key_name: The key to restore the color on.
         :param int red_percentage_start: Amount of red in the start color of the effect. **Range is 0 to 100**.
@@ -301,8 +331,10 @@ class NotTested:
         :param int blue_percentage_start: Amount of blue in the start color of the effect. **Range is 0 to 100**.
         :param int ms_duration: Duration of effect in millisecond.
         :param bool is_infinite: If set to True, it will loop infinitely until stopped with a called to
-                                :func:`stop_effects_on_key <NotImplemented.stop_effects_on_key>` or
+                                :func:`stop_effects_on_key` or
                                 :func:`stop_effects <LogitechLed.stop_effects>`
+
+
 
         :param int red_percentage_end: Amount of red in the finish color of the effect. **Range is 0 to 100**.
         :param int green_percentage_end: Amount of green in the finish color of the effect. **Range is 0 to 100**.
@@ -349,11 +381,11 @@ class NotTested:
     def restore_lighting_for_key(self, key_name):
         """
         Restores the saved color on the key passed as argument.
-        Use this function with the :func:`save_lighting_for_key <NotImplemented.save_lighting_for_key>` to preserve
+        Use this function with the :func:`save_lighting_for_key` to preserve
         the state of a key before applying any effect.
 
         .. warning::
-            This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.
+            This function only affects per-key backlighting featured connected devices.
 
         :param int key_name: The key to restore the color on.
         """
@@ -366,11 +398,11 @@ class NotTested:
     def save_lighting_for_key(self, key_name):
         """
         Saves the current color on the keycode passed as argument.
-        Use this function with the :func:`restore_lighting_for_key <NotImplemented.restore_lighting_for_key>`
+        Use this function with the :func:`restore_lighting_for_key`
         to preserve the state of a key before applying any effect.
 
         .. warning::
-            This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.
+            This function only affects per-key backlighting featured connected devices.
 
         :param int key_name: The key to save the color for.
 
@@ -490,29 +522,6 @@ class NotTested:
         else:
             return False
 
-    def set_lighting_for_target_zone(
-        self,
-        zone=0,
-        red_percentage=0,
-        green_percentage=0,
-        blue_percentage=0,
-    ):
-        """
-        Sets lighting on a specific zone for all connected zonal devices that match the device type
-
-        :param int zone: Zone id on target device
-        :param int red_percentage: Amount of red. **Range is 0 to 100**.
-        :param int green_percentage: Amount of green. **Range is 0 to 100**.
-        :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
-
-        """
-
-        return bool(
-            self.led_dll.LogiLedSetLightingForTargetZone(
-                None, zone, red_percentage, green_percentage, blue_percentage
-            )
-        )
-
     def set_lighting_from_bitmap(self, bitmap):
         """
         Sets the array of bytes passed as parameter as colors.
@@ -520,7 +529,7 @@ class NotTested:
         .. warning::
             This function only affects per-key backlighting featured connected devices.
 
-        :param char bitmap: A unsigned char array containing the colors to assign to each ket
+        :param char bitmap: A unsigned char array containing the colors to assign to each key
         """
         if self.led_dll:
             bitmap = ctypes.c_char_p(bitmap)
@@ -531,13 +540,10 @@ class NotTested:
     def set_target_device(self, target_device):
         """
         The function sets the target device type for future calls.
-        The default target device is LOGI_DEVICETYPE_ALL, therefore, if no call is made to LogiLedSetTargetDevice
+        By default target device is all logitech device, therefore, if no call is made to LogiLedSetTargetDevice
         the SDK will apply any function to all the connected devices.
 
         :param int target_device:
-
-        :return: If the function succeeds, it returns *True*. Otherwise *False*.
-                The function will return False if the connection with Logitech Gaming Software was lost.
         """
 
         target_device = ctypes.c_int(target_device)
@@ -548,7 +554,7 @@ class NotTested:
         Stops any ongoing effect on the key passed in as parameter.
 
         .. warning::
-            This function only applies to device of the family LOGI_DEVICETYPE_PERKEY_RGB.
+            This function only affects per-key backlighting featured connected devices.
         """
         if self.led_dll:
             key_name = ctypes.c_int(key_name)
