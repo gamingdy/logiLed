@@ -21,7 +21,7 @@ import os
 
 sys.path.insert(0, os.path.abspath("../../logipy"))
 
-project = "logiPy"
+project = "LogiPy"
 copyright = "2022-2023, Gamingdy"
 author = "Gamingdy"
 
@@ -56,6 +56,7 @@ exclude_patterns = []
 #
 html_theme = "furo"
 html_theme_options = {
+    "source_repository": "https://github.com/gamingdy/logiPy",
     "top_of_page_button": "edit",
 }
 
