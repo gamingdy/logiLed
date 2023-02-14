@@ -99,6 +99,13 @@ class Color:
         )
 
 
+def check_color(colors):
+    for color in colors:
+        if color < 0 or color > 100:
+            raise RangeError("Color value must be between 0 and 100")
+    return True
+
+
 class LogitechLed:
     """
     .. note::
@@ -138,6 +145,8 @@ class LogitechLed:
 
 
         """
+        check_color((red_percentage, green_percentage, blue_percentage))
+
         red_percentage = ctypes.c_int(red_percentage)
         green_percentage = ctypes.c_int(green_percentage)
         blue_percentage = ctypes.c_int(blue_percentage)
@@ -168,6 +177,8 @@ class LogitechLed:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
+        check_color((red_percentage, green_percentage, blue_percentage))
+
         if self.led_dll:
             return bool(
                 self.led_dll.LogiLedFlashLighting(
@@ -202,6 +213,8 @@ class LogitechLed:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
+        check_color((red_percentage, green_percentage, blue_percentage))
+
         if self.led_dll:
             red_percentage = ctypes.c_int(red_percentage)
             green_percentage = ctypes.c_int(green_percentage)
@@ -243,6 +256,7 @@ class LogitechLed:
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
         """
+        check_color((red_percentage, green_percentage, blue_percentage))
 
         return bool(
             self.led_dll.LogiLedSetLightingForTargetZone(
@@ -286,6 +300,8 @@ class NotTested:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
+        check_color((red_percentage, green_percentage, blue_percentage))
+
         if self.led_dll:
             key_name = ctypes.c_int(key_name)
             red_percentage = ctypes.c_int(red_percentage)
@@ -340,6 +356,11 @@ class NotTested:
         :param int green_percentage_end: Amount of green in the finish color of the effect. **Range is 0 to 100**.
         :param int blue_percentage_end: Amount of blue in the finish color of the effect. **Range is 0 to 100**.
         """
+        check_color(
+            (red_percentage_start, green_percentage_start, blue_percentage_start)
+        )
+        check_color((red_percentage_end, green_percentage_end, blue_percentage_end))
+
         if self.led_dll:
             key_name = ctypes.c_int(key_name)
             red_percentage_start = ctypes.c_int(red_percentage_start)
@@ -427,6 +448,8 @@ class NotTested:
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
         """
+        check_color((red_percentage, green_percentage, blue_percentage))
+
         if self.led_dll:
             key_code = ctypes.c_int(key_code)
             red_percentage = ctypes.c_int(red_percentage)
@@ -454,6 +477,8 @@ class NotTested:
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
         """
+        check_color((red_percentage, green_percentage, blue_percentage))
+
         if self.led_dll:
             key_name = ctypes.c_int(key_name)
             red_percentage = ctypes.c_int(red_percentage)
@@ -482,6 +507,8 @@ class NotTested:
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
         """
+        check_color((red_percentage, green_percentage, blue_percentage))
+
         if self.led_dll:
             key_code = ctypes.c_int(key_code)
             red_percentage = ctypes.c_int(red_percentage)
@@ -509,6 +536,8 @@ class NotTested:
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
         """
+        check_color((red_percentage, green_percentage, blue_percentage))
+
         if self.led_dll:
             key_code = ctypes.c_int(key_code)
             red_percentage = ctypes.c_int(red_percentage)
