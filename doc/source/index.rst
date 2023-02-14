@@ -9,6 +9,11 @@ Welcome to LogiPy's documentation!
 ==================================
 
 
+This project is a fork of `LogiPy <https://github.com/Logitech/logiPy>`_
+
+It's provide exported functions for the API Logitech Gaming LED SDK to python
+
+
 Others pages
 ~~~~~~~~~~~~
 
