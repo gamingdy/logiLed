@@ -28,6 +28,14 @@ class LGHUBNotLaunched(BaseException):
     pass
 
 
+class RangeError(BaseException):
+    """
+    Raised if given value is in incorrect range
+    """
+
+    pass
+
+
 # Helpers
 #
 class Color:
@@ -143,6 +151,7 @@ class LogitechLed:
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
+        :raises RangeError: Raised if color percentage range is not correct
 
         """
         check_color((red_percentage, green_percentage, blue_percentage))
@@ -173,6 +182,8 @@ class LogitechLed:
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
         :param int ms_duration: Duration of effect in millisecond.
         :param int ms_interval: Interval duration between each effect in millisecond.
+
+        :raises RangeError: Raised if color percentage range is not correct
 
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
@@ -209,6 +220,8 @@ class LogitechLed:
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
         :param int ms_duration: Duration of effect in millisecond.
         :param int ms_interval: Interval duration between each effect in millisecond.
+
+        :raises RangeError: Raised if color percentage range is not correct
 
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
@@ -255,6 +268,8 @@ class LogitechLed:
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
+        :raises RangeError: Raised if color percentage range is not correct
+
         """
         check_color((red_percentage, green_percentage, blue_percentage))
 
@@ -296,6 +311,8 @@ class NotTested:
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
         :param int ms_duration: Duration of effect in millisecond.
         :param int ms_interval: Interval duration between each effect in millisecond.
+
+        :raises RangeError: Raised if color percentage range is not correct
 
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
@@ -355,6 +372,9 @@ class NotTested:
         :param int red_percentage_end: Amount of red in the finish color of the effect. **Range is 0 to 100**.
         :param int green_percentage_end: Amount of green in the finish color of the effect. **Range is 0 to 100**.
         :param int blue_percentage_end: Amount of blue in the finish color of the effect. **Range is 0 to 100**.
+
+        :raises RangeError: Raised if color percentage range is not correct
+
         """
         check_color(
             (red_percentage_start, green_percentage_start, blue_percentage_start)
@@ -447,6 +467,8 @@ class NotTested:
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
+
+        :raises RangeError: Raised if color percentage range is not correct
         """
         check_color((red_percentage, green_percentage, blue_percentage))
 
@@ -476,6 +498,8 @@ class NotTested:
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
+
+        :raises RangeError: Raised if color percentage range is not correct
         """
         check_color((red_percentage, green_percentage, blue_percentage))
 
@@ -506,6 +530,8 @@ class NotTested:
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
+
+        :raises RangeError: Raised if color percentage range is not correct
         """
         check_color((red_percentage, green_percentage, blue_percentage))
 
@@ -535,6 +561,8 @@ class NotTested:
         :param int red_percentage: Amount of red. **Range is 0 to 100**.
         :param int green_percentage: Amount of green. **Range is 0 to 100**.
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
+
+        :raises RangeError: Raised if color percentage range is not correct
         """
         check_color((red_percentage, green_percentage, blue_percentage))
 

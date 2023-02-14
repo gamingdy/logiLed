@@ -16,4 +16,6 @@ The following exceptions are thrown by the library
 .. autoclass:: LGHUBNotLaunched
     :members:
 
+.. autoclass:: RangeError
+    :members:
 
