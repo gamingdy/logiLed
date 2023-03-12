@@ -107,12 +107,18 @@ class Color:
         )
 
 
-def check_color(colors):
-    for color in colors:
-        if color < 0 or color > 100:
-            raise RangeError("Color value must be between 0 and 100")
+def check_maximum(values, maximum):
+    for value in values:
+        if value > maximum:
+            raise RangeError(f"Value can't be greater than {maximum}")
     return True
 
+
+def check_negative(values):
+    for value in values:
+        if value < 0:
+            raise RangeError("Value can't be negative")
+    return True
 
 class LogitechLed:
     """
@@ -122,10 +128,6 @@ class LogitechLed:
 
     def __init__(self):
         self.led_dll = led_dll
-
-    def _verify_type(self, arg_list):
-        for arg in arg_list:
-            pass
 
     def shutdown(self):
         """
@@ -154,7 +156,8 @@ class LogitechLed:
         :raises RangeError: Raised if color percentage range is not correct
 
         """
-        check_color((red_percentage, green_percentage, blue_percentage))
+        check_negative((red_percentage, green_percentage, blue_percentage))
+        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
         red_percentage = ctypes.c_int(red_percentage)
         green_percentage = ctypes.c_int(green_percentage)
@@ -188,7 +191,16 @@ class LogitechLed:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
-        check_color((red_percentage, green_percentage, blue_percentage))
+        check_negative(
+            (
+                red_percentage,
+                green_percentage,
+                blue_percentage,
+                ms_duration,
+                ms_interval,
+            )
+        )
+        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
         if self.led_dll:
             return bool(
@@ -226,7 +238,16 @@ class LogitechLed:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
-        check_color((red_percentage, green_percentage, blue_percentage))
+        check_negative(
+            (
+                red_percentage,
+                green_percentage,
+                blue_percentage,
+                ms_duration,
+                ms_interval,
+            )
+        )
+        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
         if self.led_dll:
             red_percentage = ctypes.c_int(red_percentage)
@@ -255,10 +276,10 @@ class LogitechLed:
 
     def set_lighting_for_target_zone(
         self,
-        zone=0,
-        red_percentage=0,
-        green_percentage=0,
-        blue_percentage=0,
+        zone,
+        red_percentage,
+        green_percentage,
+        blue_percentage,
     ):
         """
         Sets lighting on a specific zone for all connected zonal devices that match the device type
@@ -271,7 +292,8 @@ class LogitechLed:
         :raises RangeError: Raised if color percentage range is not correct
 
         """
-        check_color((red_percentage, green_percentage, blue_percentage))
+        check_negative((zone, red_percentage, green_percentage, blue_percentage))
+        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
         return bool(
             self.led_dll.LogiLedSetLightingForTargetZone(
@@ -317,7 +339,16 @@ class NotTested:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
-        check_color((red_percentage, green_percentage, blue_percentage))
+        check_negative(
+            (
+                red_percentage,
+                green_percentage,
+                blue_percentage,
+                ms_duration,
+                ms_interval,
+            )
+        )
+        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
         if self.led_dll:
             key_name = ctypes.c_int(key_name)
@@ -363,12 +394,7 @@ class NotTested:
         :param int green_percentage_start: Amount of green in the start color of the effect. **Range is 0 to 100**.
         :param int blue_percentage_start: Amount of blue in the start color of the effect. **Range is 0 to 100**.
         :param int ms_duration: Duration of effect in millisecond.
-        :param bool is_infinite: If set to True, it will loop infinitely until stopped with a called to
-                                :func:`stop_effects_on_key` or
-                                :func:`stop_effects <LogitechLed.stop_effects>`
-
-
-
+        :param bool is_infinite: If set to True, it will loop infinitely until stopped with a called to :func:`stop_effects_on_key` or :func:`stop_effects <LogitechLed.stop_effects>`
         :param int red_percentage_end: Amount of red in the finish color of the effect. **Range is 0 to 100**.
         :param int green_percentage_end: Amount of green in the finish color of the effect. **Range is 0 to 100**.
         :param int blue_percentage_end: Amount of blue in the finish color of the effect. **Range is 0 to 100**.
@@ -376,10 +402,28 @@ class NotTested:
         :raises RangeError: Raised if color percentage range is not correct
 
         """
-        check_color(
-            (red_percentage_start, green_percentage_start, blue_percentage_start)
+        check_negative(
+            (
+                red_percentage_start,
+                green_percentage_start,
+                blue_percentage_start,
+                red_percentage_end,
+                green_percentage_end,
+                blue_percentage_end,
+                ms_duration,
+            )
         )
-        check_color((red_percentage_end, green_percentage_end, blue_percentage_end))
+        check_maximum(
+            (
+                red_percentage_start,
+                green_percentage_start,
+                blue_percentage_start,
+                red_percentage_end,
+                green_percentage_end,
+                blue_percentage_end,
+            ),
+            100,
+        )
 
         if self.led_dll:
             key_name = ctypes.c_int(key_name)
@@ -470,7 +514,8 @@ class NotTested:
 
         :raises RangeError: Raised if color percentage range is not correct
         """
-        check_color((red_percentage, green_percentage, blue_percentage))
+        check_negative((red_percentage, green_percentage, blue_percentage))
+        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
         if self.led_dll:
             key_code = ctypes.c_int(key_code)
@@ -501,7 +546,8 @@ class NotTested:
 
         :raises RangeError: Raised if color percentage range is not correct
         """
-        check_color((red_percentage, green_percentage, blue_percentage))
+        check_negative((red_percentage, green_percentage, blue_percentage))
+        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
         if self.led_dll:
             key_name = ctypes.c_int(key_name)
@@ -533,7 +579,8 @@ class NotTested:
 
         :raises RangeError: Raised if color percentage range is not correct
         """
-        check_color((red_percentage, green_percentage, blue_percentage))
+        check_negative((red_percentage, green_percentage, blue_percentage))
+        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
         if self.led_dll:
             key_code = ctypes.c_int(key_code)
@@ -564,7 +611,8 @@ class NotTested:
 
         :raises RangeError: Raised if color percentage range is not correct
         """
-        check_color((red_percentage, green_percentage, blue_percentage))
+        check_negative((red_percentage, green_percentage, blue_percentage))
+        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
         if self.led_dll:
             key_code = ctypes.c_int(key_code)
@@ -586,7 +634,7 @@ class NotTested:
         .. warning::
             This function only affects per-key backlighting featured connected devices.
 
-        :param char bitmap: A unsigned char array containing the colors to assign to each key
+        :param char bitmap: An unsigned char array containing the colors to assign to each key
         """
         if self.led_dll:
             bitmap = ctypes.c_char_p(bitmap)
@@ -597,7 +645,7 @@ class NotTested:
     def set_target_device(self, target_device):
         """
         The function sets the target device type for future calls.
-        By default target device is all logitech device, therefore, if no call is made to LogiLedSetTargetDevice
+        By default, target device is all logitech device, therefore, if no call is made to LogiLedSetTargetDevice
         the SDK will apply any function to all the connected devices.
 
         :param int target_device:
