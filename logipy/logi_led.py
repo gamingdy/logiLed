@@ -36,6 +36,10 @@ class RangeError(BaseException):
     pass
 
 
+class ConnectionLost(BaseException):
+    pass
+
+
 # Helpers
 #
 class Color:
@@ -120,6 +124,17 @@ def check_negative(values):
             raise RangeError("Value can't be negative")
     return True
 
+
+def execute(funct, *args):
+    result = funct(*args)
+    if result:
+        return True
+
+    raise ConnectionLost(
+        f"Connection with Logitech SDK is lost, try to restart LogitechGHub"
+    )
+
+
 class LogitechLed:
     """
     .. note::
@@ -133,8 +148,7 @@ class LogitechLed:
         """
         Restores the last saved lighting and frees memory used by the SDK.
         """
-
-        return bool(self.led_dll.LogiLedShutdown())
+        return execute(self.led_dll.LogiLedShutdown)
 
     def save_current_lighting(self):
         """
@@ -143,7 +157,7 @@ class LogitechLed:
         .. note::
             On per-key backlighting supporting devices, this function will save the current state for each key.
         """
-        return bool(self.led_dll.LogiLedSaveCurrentLighting())
+        return execute(self.led_dll.LogiLedSaveCurrentLighting)
 
     def set_lighting(self, red_percentage, green_percentage, blue_percentage):
         """
@@ -159,13 +173,11 @@ class LogitechLed:
         check_negative((red_percentage, green_percentage, blue_percentage))
         check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
-        red_percentage = ctypes.c_int(red_percentage)
-        green_percentage = ctypes.c_int(green_percentage)
-        blue_percentage = ctypes.c_int(blue_percentage)
-        return bool(
-            self.led_dll.LogiLedSetLighting(
-                red_percentage, green_percentage, blue_percentage
-            )
+        return execute(
+            self.led_dll.LogiLedSetLighting,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
         )
 
     def flash_lighting(
@@ -201,19 +213,14 @@ class LogitechLed:
             )
         )
         check_maximum((red_percentage, green_percentage, blue_percentage), 100)
-
-        if self.led_dll:
-            return bool(
-                self.led_dll.LogiLedFlashLighting(
-                    red_percentage,
-                    green_percentage,
-                    blue_percentage,
-                    ms_duration,
-                    ms_interval,
-                )
-            )
-        else:
-            return False
+        return execute(
+            self.led_dll.LogiLedFlashLighting,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
+            ms_duration,
+            ms_interval,
+        )
 
     def pulse_lighting(
         self,
@@ -248,31 +255,18 @@ class LogitechLed:
             )
         )
         check_maximum((red_percentage, green_percentage, blue_percentage), 100)
-
-        if self.led_dll:
-            red_percentage = ctypes.c_int(red_percentage)
-            green_percentage = ctypes.c_int(green_percentage)
-            blue_percentage = ctypes.c_int(blue_percentage)
-            ms_duration = ctypes.c_int(ms_duration)
-            ms_interval = ctypes.c_int(ms_interval)
-            return bool(
-                self.led_dll.LogiLedPulseLighting(
-                    red_percentage,
-                    green_percentage,
-                    blue_percentage,
-                    ms_duration,
-                    ms_interval,
-                )
-            )
-        else:
-            return False
+        return execute(
+            self.led_dll.LogiLedPulseLighting,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
+            ms_duration,
+            ms_interval,
+        )
 
     def stop_effects(self):
         """Stops any of the presets effects (started from :func:`flash_lighting` or :func:`pulse_lighting`)."""
-        if self.led_dll:
-            return bool(led_dll.LogiLedStopEffects())
-        else:
-            return False
+        return execute(self.led_dll.LogiLedStopEffects)
 
     def set_lighting_for_target_zone(
         self,
@@ -294,11 +288,13 @@ class LogitechLed:
         """
         check_negative((zone, red_percentage, green_percentage, blue_percentage))
         check_maximum((red_percentage, green_percentage, blue_percentage), 100)
-
-        return bool(
-            self.led_dll.LogiLedSetLightingForTargetZone(
-                None, zone, red_percentage, green_percentage, blue_percentage
-            )
+        return execute(
+            self.led_dll.LogiLedSetLightingForTargetZone,
+            None,
+            zone,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
         )
 
 
@@ -349,26 +345,15 @@ class NotTested:
             )
         )
         check_maximum((red_percentage, green_percentage, blue_percentage), 100)
-
-        if self.led_dll:
-            key_name = ctypes.c_int(key_name)
-            red_percentage = ctypes.c_int(red_percentage)
-            green_percentage = ctypes.c_int(green_percentage)
-            blue_percentage = ctypes.c_int(blue_percentage)
-            ms_duration = ctypes.c_int(ms_duration)
-            ms_interval = ctypes.c_int(ms_interval)
-            return bool(
-                led_dll.LogiLedFlashSingleKey(
-                    key_name,
-                    red_percentage,
-                    green_percentage,
-                    blue_percentage,
-                    ms_duration,
-                    ms_interval,
-                )
-            )
-        else:
-            return False
+        return execute(
+            self.led_dll.LogiLedFlashSingleKey,
+            key_name,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
+            ms_duration,
+            ms_interval,
+        )
 
     def pulse_single_key(
         self,
@@ -424,32 +409,18 @@ class NotTested:
             ),
             100,
         )
-
-        if self.led_dll:
-            key_name = ctypes.c_int(key_name)
-            red_percentage_start = ctypes.c_int(red_percentage_start)
-            green_percentage_start = ctypes.c_int(green_percentage_start)
-            blue_percentage_start = ctypes.c_int(blue_percentage_start)
-            red_percentage_end = ctypes.c_int(red_percentage_end)
-            green_percentage_end = ctypes.c_int(green_percentage_end)
-            blue_percentage_end = ctypes.c_int(blue_percentage_end)
-            ms_duration = ctypes.c_int(ms_duration)
-            is_infinite = ctypes.c_bool(is_infinite)
-            return bool(
-                led_dll.LogiLedPulseSingleKey(
-                    key_name,
-                    red_percentage_start,
-                    green_percentage_start,
-                    blue_percentage_start,
-                    red_percentage_end,
-                    green_percentage_end,
-                    blue_percentage_end,
-                    ms_duration,
-                    is_infinite,
-                )
-            )
-        else:
-            return False
+        return execute(
+            self.led_dll.LogiLedPulseSingleKey,
+            key_name,
+            red_percentage_start,
+            green_percentage_start,
+            blue_percentage_start,
+            red_percentage_end,
+            green_percentage_end,
+            blue_percentage_end,
+            ms_duration,
+            is_infinite,
+        )
 
     def restore_lighting(self):
         """
@@ -458,10 +429,7 @@ class NotTested:
         .. note::
             On per-key backlighting supporting devices, this function will restore the saved state for each key
         """
-        if self.led_dll:
-            return bool(led_dll.LogiLedRestoreLighting())
-        else:
-            return False
+        return execute(self.led_dll.LogiLedRestoreLighting)
 
     def restore_lighting_for_key(self, key_name):
         """
@@ -474,11 +442,7 @@ class NotTested:
 
         :param int key_name: The key to restore the color on.
         """
-        if self.led_dll:
-            key_name = ctypes.c_int(key_name)
-            return bool(led_dll.LogiLedRestoreLightingForKey(key_name))
-        else:
-            return False
+        return execute(self.led_dll.LogiLedRestoreLightingForKey, key_name)
 
     def save_lighting_for_key(self, key_name):
         """
@@ -492,11 +456,7 @@ class NotTested:
         :param int key_name: The key to save the color for.
 
         """
-        if self.led_dll:
-            key_name = ctypes.c_int(key_name)
-            return bool(led_dll.LogiLedSaveLightingForKey(key_name))
-        else:
-            return False
+        return execute(self.led_dll.LogiLedSaveLightingForKey, key_name)
 
     def set_lighting_for_key_with_hid_code(
         self, key_code, red_percentage, green_percentage, blue_percentage
@@ -517,18 +477,13 @@ class NotTested:
         check_negative((red_percentage, green_percentage, blue_percentage))
         check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
-        if self.led_dll:
-            key_code = ctypes.c_int(key_code)
-            red_percentage = ctypes.c_int(red_percentage)
-            green_percentage = ctypes.c_int(green_percentage)
-            blue_percentage = ctypes.c_int(blue_percentage)
-            return bool(
-                led_dll.LogiLedSetLightingForKeyWithHidCode(
-                    key_code, red_percentage, green_percentage, blue_percentage
-                )
-            )
-        else:
-            return False
+        return execute(
+            self.led_dll.LogiLedSetLightingForKeyWithHidCode,
+            key_code,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
+        )
 
     def set_lighting_for_key_with_key_name(
         self, key_name, red_percentage, green_percentage, blue_percentage
@@ -549,18 +504,13 @@ class NotTested:
         check_negative((red_percentage, green_percentage, blue_percentage))
         check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
-        if self.led_dll:
-            key_name = ctypes.c_int(key_name)
-            red_percentage = ctypes.c_int(red_percentage)
-            green_percentage = ctypes.c_int(green_percentage)
-            blue_percentage = ctypes.c_int(blue_percentage)
-            return bool(
-                led_dll.LogiLedSetLightingForKeyWithKeyName(
-                    key_name, red_percentage, green_percentage, blue_percentage
-                )
-            )
-        else:
-            return False
+        return execute(
+            self.led_dll.LogiLedSetLightingForKeyWithKeyName,
+            key_name,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
+        )
 
     def set_lighting_for_key_with_quartz_code(
         self, key_code, red_percentage, green_percentage, blue_percentage
@@ -582,18 +532,13 @@ class NotTested:
         check_negative((red_percentage, green_percentage, blue_percentage))
         check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
-        if self.led_dll:
-            key_code = ctypes.c_int(key_code)
-            red_percentage = ctypes.c_int(red_percentage)
-            green_percentage = ctypes.c_int(green_percentage)
-            blue_percentage = ctypes.c_int(blue_percentage)
-            return bool(
-                led_dll.LogiLedSetLightingForKeyWithQuartzCode(
-                    key_code, red_percentage, green_percentage, blue_percentage
-                )
-            )
-        else:
-            return False
+        return execute(
+            self.led_dll.LogiLedSetLightingForKeyWithQuartzCode,
+            key_code,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
+        )
 
     def set_lighting_for_key_with_scan_code(
         self, key_code, red_percentage, green_percentage, blue_percentage
@@ -614,18 +559,13 @@ class NotTested:
         check_negative((red_percentage, green_percentage, blue_percentage))
         check_maximum((red_percentage, green_percentage, blue_percentage), 100)
 
-        if self.led_dll:
-            key_code = ctypes.c_int(key_code)
-            red_percentage = ctypes.c_int(red_percentage)
-            green_percentage = ctypes.c_int(green_percentage)
-            blue_percentage = ctypes.c_int(blue_percentage)
-            return bool(
-                led_dll.LogiLedSetLightingForKeyWithScanCode(
-                    key_code, red_percentage, green_percentage, blue_percentage
-                )
-            )
-        else:
-            return False
+        return execute(
+            self.led_dll.LogiLedSetLightingForKeyWithScanCode,
+            key_code,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
+        )
 
     def set_lighting_from_bitmap(self, bitmap):
         """
@@ -636,11 +576,8 @@ class NotTested:
 
         :param char bitmap: An unsigned char array containing the colors to assign to each key
         """
-        if self.led_dll:
-            bitmap = ctypes.c_char_p(bitmap)
-            return bool(led_dll.LogiLedSetLightingFromBitmap(bitmap))
-        else:
-            return False
+        bitmap = ctypes.c_char_p(bitmap)
+        return execute(self.led_dll.LogiLedSetLightingFromBitmap, bitmap)
 
     def set_target_device(self, target_device):
         """
@@ -651,8 +588,7 @@ class NotTested:
         :param int target_device:
         """
 
-        target_device = ctypes.c_int(target_device)
-        return bool(led_dll.LogiLedSetTargetDevice(target_device))
+        return execute(self.led_dll.LogiLedSetTargetDevice, target_device)
 
     def stop_effects_on_key(self, key_name):
         """
@@ -661,11 +597,7 @@ class NotTested:
         .. warning::
             This function only affects per-key backlighting featured connected devices.
         """
-        if self.led_dll:
-            key_name = ctypes.c_int(key_name)
-            return bool(led_dll.LogiLedStopEffectsOnKey(key_name))
-        else:
-            return False
+        return execute(self.led_dll.LogiLedStopEffectsOnKey, key_name)
 
 
 led_dll = None
