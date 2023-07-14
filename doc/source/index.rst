@@ -14,12 +14,26 @@ This project is a fork of `LogiPy <https://github.com/Logitech/logiPy>`_
 It's provide exported functions for the API Logitech Gaming LED SDK to python
 
 
-Others pages
+Getting Started
+~~~~~~~~~~~~~~~
+
+.. toctree::
+   :maxdepth: 3
+
+
+   exemple.rst
+
+
+Core Wrapper
 ~~~~~~~~~~~~
 
 .. toctree::
-	:maxdepth: 3
+   :maxdepth: 3
 
-	
-	logipy.rst
-	error.rst
+
+   logipy.rst
+   error.rst
+
+
+
+
