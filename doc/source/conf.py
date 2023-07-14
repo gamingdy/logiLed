@@ -22,7 +22,7 @@ import os
 sys.path.insert(0, os.path.abspath("../../logipy"))
 
 project = "LogiPy"
-copyright = "2022-2023, Gamingdy"
+copyright = "2015-2022, Tom Lambert (Logitech) & 2022-present, Gamingdy"
 author = "Gamingdy"
 
 # The full version, including alpha/beta/rc tags
