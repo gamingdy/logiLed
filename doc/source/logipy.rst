@@ -13,7 +13,7 @@ LogiPy
    Logitech Gaming Software was lost**.
 
 .. autoclass:: LogitechLed
-	:members:
+   :members:
 
 ---------
 
@@ -23,5 +23,5 @@ LogiPy
    I can't guarantee the proper functioning, but you can test them and report the errors meet through an `issue <https://github.com/gamingdy/logiPy/issues>`_
 
 .. autoclass:: NotTested
-	:members:
+   :members:
 
