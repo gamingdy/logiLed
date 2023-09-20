@@ -13,6 +13,9 @@ This project is a fork of `LogiPy <https://github.com/Logitech/logiPy>`_
 
 It's provide exported functions for the API Logitech Gaming LED SDK to python
 
+.. warning::
+   This module only work on **Windows**, due to the fact that Logitech G Hub is not available under linux
+
 
 Getting Started
 ~~~~~~~~~~~~~~~
