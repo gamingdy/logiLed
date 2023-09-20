@@ -31,8 +31,8 @@ Core Wrapper
 ~~~~~~~~~~~~
 
 .. toctree::
-   :maxdepth: 3
-
+   :maxdepth: 1
+   :caption: Contents
 
    logipy.rst
    error.rst
