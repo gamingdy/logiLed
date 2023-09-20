@@ -20,11 +20,11 @@ It's provide exported functions for the API Logitech Gaming LED SDK to python
 Getting Started
 ~~~~~~~~~~~~~~~
 
-.. toctree::
-   :maxdepth: 3
+Is this your first time using the library? This is the place to get started!
 
 
-   exemple.rst
+- **First steps:** :doc:`install`
+- **Using packagename** :doc:`usage`
 
 
 Core Wrapper
