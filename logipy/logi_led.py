@@ -111,18 +111,12 @@ class Color:
         )
 
 
-def check_maximum(values, maximum):
+def check_value(minimum, maximum, *values):
     for value in values:
-        if value > maximum:
+        if value < minimum:
+            raise RangeError(f"Value can't be lower than {minimum}")
+        elif value > maximum:
             raise RangeError(f"Value can't be greater than {maximum}")
-    return True
-
-
-def check_negative(values):
-    for value in values:
-        if value < 0:
-            raise RangeError("Value can't be negative")
-    return True
 
 
 def execute(funct, *args):
@@ -170,8 +164,9 @@ class LogitechLed:
         :raises RangeError: Raised if color percentage range is not correct
 
         """
-        check_negative((red_percentage, green_percentage, blue_percentage))
-        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
+        # check_negative((red_percentage, green_percentage, blue_percentage))
+        # check_maximum((red_percentage, green_percentage, blue_percentage), 100)
+        check_value(1, 100, red_percentage, green_percentage, blue_percentage)
 
         return execute(
             self.led_dll.LogiLedSetLighting,
@@ -203,16 +198,14 @@ class LogitechLed:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
-        check_negative(
-            (
-                red_percentage,
-                green_percentage,
-                blue_percentage,
-                ms_duration,
-                ms_interval,
-            )
+        check_value(0, 100, red_percentage, green_percentage, blue_percentage)
+        check_value(
+            0,
+            float("inf"),
+            ms_duration,
+            ms_interval,
         )
-        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
+
         return execute(
             self.led_dll.LogiLedFlashLighting,
             red_percentage,
@@ -245,16 +238,20 @@ class LogitechLed:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
-        check_negative(
-            (
-                red_percentage,
-                green_percentage,
-                blue_percentage,
-                ms_duration,
-                ms_interval,
-            )
+        check_value(
+            0,
+            100,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
         )
-        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
+        check_value(
+            0,
+            float("inf"),
+            ms_duration,
+            ms_interval,
+        )
+
         return execute(
             self.led_dll.LogiLedPulseLighting,
             red_percentage,
@@ -286,8 +283,7 @@ class LogitechLed:
         :raises RangeError: Raised if color percentage range is not correct
 
         """
-        check_negative((zone, red_percentage, green_percentage, blue_percentage))
-        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
+        check_value(0, 100, zone, red_percentage, green_percentage, blue_percentage)
         return execute(
             self.led_dll.LogiLedSetLightingForTargetZone,
             None,
@@ -335,16 +331,14 @@ class NotTested:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
-        check_negative(
-            (
-                red_percentage,
-                green_percentage,
-                blue_percentage,
-                ms_duration,
-                ms_interval,
-            )
+        check_value(
+            0,
+            100,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
         )
-        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
+        check_value(0, float("inf"), ms_duration, ms_interval)
         return execute(
             self.led_dll.LogiLedFlashSingleKey,
             key_name,
@@ -387,28 +381,17 @@ class NotTested:
         :raises RangeError: Raised if color percentage range is not correct
 
         """
-        check_negative(
-            (
-                red_percentage_start,
-                green_percentage_start,
-                blue_percentage_start,
-                red_percentage_end,
-                green_percentage_end,
-                blue_percentage_end,
-                ms_duration,
-            )
-        )
-        check_maximum(
-            (
-                red_percentage_start,
-                green_percentage_start,
-                blue_percentage_start,
-                red_percentage_end,
-                green_percentage_end,
-                blue_percentage_end,
-            ),
+        check_value(
+            0,
             100,
+            red_percentage_start,
+            green_percentage_start,
+            blue_percentage_start,
+            red_percentage_end,
+            green_percentage_end,
+            blue_percentage_end,
         )
+        check_value(0, float("inf"), ms_duration)
         return execute(
             self.led_dll.LogiLedPulseSingleKey,
             key_name,
@@ -474,8 +457,7 @@ class NotTested:
 
         :raises RangeError: Raised if color percentage range is not correct
         """
-        check_negative((red_percentage, green_percentage, blue_percentage))
-        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
+        check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
         return execute(
             self.led_dll.LogiLedSetLightingForKeyWithHidCode,
@@ -501,8 +483,7 @@ class NotTested:
 
         :raises RangeError: Raised if color percentage range is not correct
         """
-        check_negative((red_percentage, green_percentage, blue_percentage))
-        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
+        check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
         return execute(
             self.led_dll.LogiLedSetLightingForKeyWithKeyName,
@@ -529,8 +510,7 @@ class NotTested:
 
         :raises RangeError: Raised if color percentage range is not correct
         """
-        check_negative((red_percentage, green_percentage, blue_percentage))
-        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
+        check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
         return execute(
             self.led_dll.LogiLedSetLightingForKeyWithQuartzCode,
@@ -556,8 +536,7 @@ class NotTested:
 
         :raises RangeError: Raised if color percentage range is not correct
         """
-        check_negative((red_percentage, green_percentage, blue_percentage))
-        check_maximum((red_percentage, green_percentage, blue_percentage), 100)
+        check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
         return execute(
             self.led_dll.LogiLedSetLightingForKeyWithScanCode,
