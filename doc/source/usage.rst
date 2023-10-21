@@ -28,16 +28,13 @@ Or NotTested if you want to use untested functions
 
     logi_led_untested = packagename.NotTested()
 
-It is also possible to initialize both, so that functions from both can be used.
-
-.. code-block:: python
-
-    logi_led = packagename.LogitechLed()
-    logi_led_untested = packagename.NotTested()
+All LogitechLed functions are available when you use NotTested. Allowing you to use both simultaneously
 
 .. note::
     The full list of functions is available here :doc:`logipy`
 
+Best way to stop program
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. important::
     To terminate a program correctly, we recommend using the LogitechLed instance's shutdown function
