@@ -164,9 +164,8 @@ class LogitechLed:
         :raises RangeError: Raised if color percentage range is not correct
 
         """
-        # check_negative((red_percentage, green_percentage, blue_percentage))
-        # check_maximum((red_percentage, green_percentage, blue_percentage), 100)
-        check_value(1, 100, red_percentage, green_percentage, blue_percentage)
+
+        check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
         return execute(
             self.led_dll.LogiLedSetLighting,
@@ -199,12 +198,7 @@ class LogitechLed:
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
-        check_value(
-            0,
-            float("inf"),
-            ms_duration,
-            ms_interval,
-        )
+        check_value(0, float("inf"), ms_duration, ms_interval)
 
         return execute(
             self.led_dll.LogiLedFlashLighting,
@@ -238,19 +232,8 @@ class LogitechLed:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
-        check_value(
-            0,
-            100,
-            red_percentage,
-            green_percentage,
-            blue_percentage,
-        )
-        check_value(
-            0,
-            float("inf"),
-            ms_duration,
-            ms_interval,
-        )
+        check_value(0, 100, red_percentage, green_percentage, blue_percentage)
+        check_value(0, float("inf"), ms_duration, ms_interval)
 
         return execute(
             self.led_dll.LogiLedPulseLighting,
@@ -294,14 +277,14 @@ class LogitechLed:
         )
 
 
-class NotTested:
+class NotTested(LogitechLed):
     """
     .. warning::
         A list of untested functions, which can be used but for which we are not sure of the correct operation.
     """
 
     def __init__(self):
-        self.led_dll = led_dll
+        super().__init__()
 
     def flash_single_key(
         self,
@@ -331,13 +314,7 @@ class NotTested:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
-        check_value(
-            0,
-            100,
-            red_percentage,
-            green_percentage,
-            blue_percentage,
-        )
+        check_value(0, 100, red_percentage, green_percentage, blue_percentage)
         check_value(0, float("inf"), ms_duration, ms_interval)
         return execute(
             self.led_dll.LogiLedFlashSingleKey,
