@@ -142,7 +142,7 @@ class LogitechLed:
         """
         Restores the last saved lighting and frees memory used by the SDK.
         """
-        return execute(self.led_dll.LogiLedShutdown)
+        execute(self.led_dll.LogiLedShutdown)
 
     def save_current_lighting(self):
         """
@@ -151,7 +151,7 @@ class LogitechLed:
         .. note::
             On per-key backlighting supporting devices, this function will save the current state for each key.
         """
-        return execute(self.led_dll.LogiLedSaveCurrentLighting)
+        execute(self.led_dll.LogiLedSaveCurrentLighting)
 
     def set_lighting(self, red_percentage, green_percentage, blue_percentage):
         """
@@ -167,7 +167,7 @@ class LogitechLed:
 
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
-        return execute(
+        execute(
             self.led_dll.LogiLedSetLighting,
             red_percentage,
             green_percentage,
@@ -200,7 +200,7 @@ class LogitechLed:
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
         check_value(0, float("inf"), ms_duration, ms_interval)
 
-        return execute(
+        execute(
             self.led_dll.LogiLedFlashLighting,
             red_percentage,
             green_percentage,
@@ -235,7 +235,7 @@ class LogitechLed:
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
         check_value(0, float("inf"), ms_duration, ms_interval)
 
-        return execute(
+        execute(
             self.led_dll.LogiLedPulseLighting,
             red_percentage,
             green_percentage,
@@ -245,8 +245,10 @@ class LogitechLed:
         )
 
     def stop_effects(self):
-        """Stops any of the presets effects (started from :func:`flash_lighting` or :func:`pulse_lighting`)."""
-        return execute(self.led_dll.LogiLedStopEffects)
+        """
+        Stops any of the presets effects (started from :func:`flash_lighting` or :func:`pulse_lighting`).
+        """
+        execute(self.led_dll.LogiLedStopEffects)
 
     def set_lighting_for_target_zone(
         self,
@@ -266,8 +268,10 @@ class LogitechLed:
         :raises RangeError: Raised if color percentage range is not correct
 
         """
-        check_value(0, 100, zone, red_percentage, green_percentage, blue_percentage)
-        return execute(
+        check_value(
+            0, 100, zone, red_percentage, green_percentage, blue_percentage
+        )
+        execute(
             self.led_dll.LogiLedSetLightingForTargetZone,
             None,
             zone,
@@ -316,7 +320,7 @@ class NotTested(LogitechLed):
         """
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
         check_value(0, float("inf"), ms_duration, ms_interval)
-        return execute(
+        execute(
             self.led_dll.LogiLedFlashSingleKey,
             key_name,
             red_percentage,
@@ -369,7 +373,7 @@ class NotTested(LogitechLed):
             blue_percentage_end,
         )
         check_value(0, float("inf"), ms_duration)
-        return execute(
+        execute(
             self.led_dll.LogiLedPulseSingleKey,
             key_name,
             red_percentage_start,
@@ -389,7 +393,7 @@ class NotTested(LogitechLed):
         .. note::
             On per-key backlighting supporting devices, this function will restore the saved state for each key
         """
-        return execute(self.led_dll.LogiLedRestoreLighting)
+        execute(self.led_dll.LogiLedRestoreLighting)
 
     def restore_lighting_for_key(self, key_name):
         """
@@ -402,7 +406,7 @@ class NotTested(LogitechLed):
 
         :param int key_name: The key to restore the color on.
         """
-        return execute(self.led_dll.LogiLedRestoreLightingForKey, key_name)
+        execute(self.led_dll.LogiLedRestoreLightingForKey, key_name)
 
     def save_lighting_for_key(self, key_name):
         """
@@ -436,7 +440,7 @@ class NotTested(LogitechLed):
         """
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
-        return execute(
+        execute(
             self.led_dll.LogiLedSetLightingForKeyWithHidCode,
             key_code,
             red_percentage,
@@ -462,7 +466,7 @@ class NotTested(LogitechLed):
         """
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
-        return execute(
+        execute(
             self.led_dll.LogiLedSetLightingForKeyWithKeyName,
             key_name,
             red_percentage,
@@ -489,7 +493,7 @@ class NotTested(LogitechLed):
         """
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
-        return execute(
+        execute(
             self.led_dll.LogiLedSetLightingForKeyWithQuartzCode,
             key_code,
             red_percentage,
@@ -515,7 +519,7 @@ class NotTested(LogitechLed):
         """
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
-        return execute(
+        execute(
             self.led_dll.LogiLedSetLightingForKeyWithScanCode,
             key_code,
             red_percentage,
@@ -533,7 +537,7 @@ class NotTested(LogitechLed):
         :param char bitmap: An unsigned char array containing the colors to assign to each key
         """
         bitmap = ctypes.c_char_p(bitmap)
-        return execute(self.led_dll.LogiLedSetLightingFromBitmap, bitmap)
+        execute(self.led_dll.LogiLedSetLightingFromBitmap, bitmap)
 
     def set_target_device(self, target_device):
         """
@@ -553,7 +557,7 @@ class NotTested(LogitechLed):
         .. warning::
             This function only affects per-key backlighting featured connected devices.
         """
-        return execute(self.led_dll.LogiLedStopEffectsOnKey, key_name)
+        execute(self.led_dll.LogiLedStopEffectsOnKey, key_name)
 
 
 led_dll = None
