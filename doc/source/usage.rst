@@ -42,3 +42,5 @@ Best way to stop program
     .. code-block:: python
 
         logi_led.shutdown()
+
+You can go to :doc:`example` to see what you can do with it.
