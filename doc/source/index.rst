@@ -36,7 +36,4 @@ Core Wrapper
 
    logipy.rst
    error.rst
-
-
-
-
+   example.rst
