@@ -554,6 +554,8 @@ class NotTested(LogitechLed):
         """
         Stops any ongoing effect on the key passed in as parameter.
 
+        :param int key_name: The ket to sto the efects on
+
         .. warning::
             This function only affects per-key backlighting featured connected devices.
         """
