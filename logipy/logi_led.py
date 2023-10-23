@@ -100,7 +100,9 @@ class Color:
             self.blue = blue
             self.alpha = alpha
         self.hex_code = "#{h}".format(
-            h=struct.pack("BBB", *(self.red, self.green, self.blue)).encode("hex")
+            h=struct.pack("BBB", *(self.red, self.green, self.blue)).encode(
+                "hex"
+            )
         )
 
     def rgb_percent(self):
@@ -354,7 +356,8 @@ class NotTested(LogitechLed):
         :param int green_percentage_start: Amount of green in the start color of the effect. **Range is 0 to 100**.
         :param int blue_percentage_start: Amount of blue in the start color of the effect. **Range is 0 to 100**.
         :param int ms_duration: Duration of effect in millisecond.
-        :param bool is_infinite: If set to True, it will loop infinitely until stopped with a called to :func:`stop_effects_on_key` or :func:`stop_effects <LogitechLed.stop_effects>`
+        :param bool is_infinite: If set to True, it will loop infinitely until stopped with a called to
+                                :func:`stop_effects_on_key` or :func:`stop_effects <LogitechLed.stop_effects>`
         :param int red_percentage_end: Amount of red in the finish color of the effect. **Range is 0 to 100**.
         :param int green_percentage_end: Amount of green in the finish color of the effect. **Range is 0 to 100**.
         :param int blue_percentage_end: Amount of blue in the finish color of the effect. **Range is 0 to 100**.
@@ -420,7 +423,7 @@ class NotTested(LogitechLed):
         :param int key_name: The key to save the color for.
 
         """
-        return execute(self.led_dll.LogiLedSaveLightingForKey, key_name)
+        execute(self.led_dll.LogiLedSaveLightingForKey, key_name)
 
     def set_lighting_for_key_with_hid_code(
         self, key_code, red_percentage, green_percentage, blue_percentage
@@ -548,7 +551,7 @@ class NotTested(LogitechLed):
         :param int target_device:
         """
 
-        return execute(self.led_dll.LogiLedSetTargetDevice, target_device)
+        execute(self.led_dll.LogiLedSetTargetDevice, target_device)
 
     def stop_effects_on_key(self, key_name):
         """
