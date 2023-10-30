@@ -131,6 +131,12 @@ def execute(funct, *args):
     )
 
 
+def check_type(type_name, *values):
+    for value in values:
+        if not isinstance(value, type_name):
+            raise TypeError(f"Value {value} must be a {type_name}")
+
+
 class LogitechLed:
     """
     .. note::
@@ -168,7 +174,7 @@ class LogitechLed:
         :raises RangeError: Raised if color percentage range is not correct
 
         """
-
+        check_type(int, red_percentage, green_percentage, blue_percentage)
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
         execute(
@@ -201,6 +207,14 @@ class LogitechLed:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
+        check_type(
+            int,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
+            ms_duration,
+            ms_interval,
+        )
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
         check_value(0, float("inf"), ms_duration, ms_interval)
 
@@ -236,6 +250,14 @@ class LogitechLed:
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
+        check_type(
+            int,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
+            ms_duration,
+            ms_interval,
+        )
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
         check_value(0, float("inf"), ms_duration, ms_interval)
 
@@ -272,6 +294,7 @@ class LogitechLed:
         :raises RangeError: Raised if color percentage range is not correct
 
         """
+        check_type(int, zone, red_percentage, green_percentage, blue_percentage)
         check_value(
             0, 100, zone, red_percentage, green_percentage, blue_percentage
         )
@@ -322,6 +345,15 @@ class NotTested(LogitechLed):
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
         """
+        check_type(
+            int,
+            key_name,
+            red_percentage,
+            green_percentage,
+            blue_percentage,
+            ms_duration,
+            ms_interval,
+        )
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
         check_value(0, float("inf"), ms_duration, ms_interval)
         execute(
@@ -367,6 +399,18 @@ class NotTested(LogitechLed):
         :raises RangeError: Raised if color percentage range is not correct
 
         """
+        check_type(
+            int,
+            key_name,
+            red_percentage_start,
+            green_percentage_start,
+            blue_percentage_start,
+            ms_duration,
+            red_percentage_end,
+            green_percentage_end,
+            blue_percentage_end,
+        )
+        check_type(bool, is_infinite)
         check_value(
             0,
             100,
@@ -411,6 +455,7 @@ class NotTested(LogitechLed):
 
         :param int key_name: The key to restore the color on.
         """
+        check_type(int, key_name)
         execute(self.led_dll.LogiLedRestoreLightingForKey, key_name)
 
     def save_lighting_for_key(self, key_name: int):
@@ -425,6 +470,7 @@ class NotTested(LogitechLed):
         :param int key_name: The key to save the color for.
 
         """
+        check_type(int, key_name)
         execute(self.led_dll.LogiLedSaveLightingForKey, key_name)
 
     def set_lighting_for_key_with_hid_code(
@@ -447,6 +493,9 @@ class NotTested(LogitechLed):
 
         :raises RangeError: Raised if color percentage range is not correct
         """
+        check_type(
+            int, key_code, red_percentage, green_percentage, blue_percentage
+        )
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
         execute(
@@ -477,6 +526,9 @@ class NotTested(LogitechLed):
 
         :raises RangeError: Raised if color percentage range is not correct
         """
+        check_type(
+            int, key_name, red_percentage, green_percentage, blue_percentage
+        )
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
         execute(
@@ -508,6 +560,9 @@ class NotTested(LogitechLed):
 
         :raises RangeError: Raised if color percentage range is not correct
         """
+        check_type(
+            int, key_code, red_percentage, green_percentage, blue_percentage
+        )
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
         execute(
@@ -538,6 +593,9 @@ class NotTested(LogitechLed):
 
         :raises RangeError: Raised if color percentage range is not correct
         """
+        check_type(
+            int, key_code, red_percentage, green_percentage, blue_percentage
+        )
         check_value(0, 100, red_percentage, green_percentage, blue_percentage)
 
         execute(
@@ -557,6 +615,7 @@ class NotTested(LogitechLed):
 
         :param bytes bitmap: An unsigned char array containing the colors to assign to each key
         """
+        check_type(bytes, bitmap)
         bitmap = ctypes.c_char_p(bitmap)
         execute(self.led_dll.LogiLedSetLightingFromBitmap, bitmap)
 
@@ -568,7 +627,7 @@ class NotTested(LogitechLed):
 
         :param int target_device:
         """
-
+        check_type(int, target_device)
         execute(self.led_dll.LogiLedSetTargetDevice, target_device)
 
     def stop_effects_on_key(self, key_name: int):
@@ -580,6 +639,7 @@ class NotTested(LogitechLed):
         .. warning::
             This function only affects per-key backlighting featured connected devices.
         """
+        check_type(int, key_name)
         execute(self.led_dll.LogiLedStopEffectsOnKey, key_name)
 
 
