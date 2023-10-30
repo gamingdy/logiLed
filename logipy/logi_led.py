@@ -155,7 +155,9 @@ class LogitechLed:
         """
         execute(self.led_dll.LogiLedSaveCurrentLighting)
 
-    def set_lighting(self, red_percentage, green_percentage, blue_percentage):
+    def set_lighting(
+        self, red_percentage: int, green_percentage: int, blue_percentage: int
+    ):
         """
         Sets the lighting on connected and supported devices.
 
@@ -178,11 +180,11 @@ class LogitechLed:
 
     def flash_lighting(
         self,
-        red_percentage,
-        green_percentage,
-        blue_percentage,
-        ms_duration,
-        ms_interval,
+        red_percentage: int,
+        green_percentage: int,
+        blue_percentage: int,
+        ms_duration: int,
+        ms_interval: int,
     ):
         """
         Plays the flashing effect on the targeted devices by combining the RGB percentages, for a defined duration in
@@ -213,11 +215,11 @@ class LogitechLed:
 
     def pulse_lighting(
         self,
-        red_percentage,
-        green_percentage,
-        blue_percentage,
-        ms_duration,
-        ms_interval,
+        red_percentage: int,
+        green_percentage: int,
+        blue_percentage: int,
+        ms_duration: int,
+        ms_interval: int,
     ):
         """
         Pulses the lighting color of the combined RGB percentages, for a defined duration in milliseconds with a given
@@ -254,10 +256,10 @@ class LogitechLed:
 
     def set_lighting_for_target_zone(
         self,
-        zone,
-        red_percentage,
-        green_percentage,
-        blue_percentage,
+        zone: int,
+        red_percentage: int,
+        green_percentage: int,
+        blue_percentage: int,
     ):
         """
         Sets lighting on a specific zone for all connected zonal devices that match the device type
@@ -294,12 +296,12 @@ class NotTested(LogitechLed):
 
     def flash_single_key(
         self,
-        key_name,
-        red_percentage,
-        green_percentage,
-        blue_percentage,
-        ms_duration,
-        ms_interval,
+        key_name: int,
+        red_percentage: int,
+        green_percentage: int,
+        blue_percentage: int,
+        ms_duration: int,
+        ms_interval: int,
     ):
         """
         Plays the flashing effect on the key passed as parameter, by combining the RGB percentages, for a defined
@@ -334,15 +336,15 @@ class NotTested(LogitechLed):
 
     def pulse_single_key(
         self,
-        key_name,
-        red_percentage_start,
-        green_percentage_start,
-        blue_percentage_start,
-        ms_duration,
-        is_infinite=False,
-        red_percentage_end=0,
-        green_percentage_end=0,
-        blue_percentage_end=0,
+        key_name: int,
+        red_percentage_start: int,
+        green_percentage_start: int,
+        blue_percentage_start: int,
+        ms_duration: int,
+        is_infinite: bool = False,
+        red_percentage_end: int = 0,
+        green_percentage_end: int = 0,
+        blue_percentage_end: int = 0,
     ):
         """
         Starts a pulsing effect on the key passed as parameter.
@@ -398,7 +400,7 @@ class NotTested(LogitechLed):
         """
         execute(self.led_dll.LogiLedRestoreLighting)
 
-    def restore_lighting_for_key(self, key_name):
+    def restore_lighting_for_key(self, key_name: int):
         """
         Restores the saved color on the key passed as argument.
         Use this function with the :func:`save_lighting_for_key` to preserve
@@ -411,7 +413,7 @@ class NotTested(LogitechLed):
         """
         execute(self.led_dll.LogiLedRestoreLightingForKey, key_name)
 
-    def save_lighting_for_key(self, key_name):
+    def save_lighting_for_key(self, key_name: int):
         """
         Saves the current color on the keycode passed as argument.
         Use this function with the :func:`restore_lighting_for_key`
@@ -426,7 +428,11 @@ class NotTested(LogitechLed):
         execute(self.led_dll.LogiLedSaveLightingForKey, key_name)
 
     def set_lighting_for_key_with_hid_code(
-        self, key_code, red_percentage, green_percentage, blue_percentage
+        self,
+        key_code: int,
+        red_percentage: int,
+        green_percentage: int,
+        blue_percentage: int,
     ):
         """
         Sets the key identified by the hid code passed as parameter to the desired color.
@@ -452,7 +458,11 @@ class NotTested(LogitechLed):
         )
 
     def set_lighting_for_key_with_key_name(
-        self, key_name, red_percentage, green_percentage, blue_percentage
+        self,
+        key_name: int,
+        red_percentage: int,
+        green_percentage: int,
+        blue_percentage: int,
     ):
         """
         Sets the key identified by the code passed as parameter to the desired color.
@@ -478,7 +488,11 @@ class NotTested(LogitechLed):
         )
 
     def set_lighting_for_key_with_quartz_code(
-        self, key_code, red_percentage, green_percentage, blue_percentage
+        self,
+        key_code: int,
+        red_percentage: int,
+        green_percentage: int,
+        blue_percentage: int,
     ):
         """
         Sets the key identified by the quartz code passed as parameter to the desired color
@@ -505,7 +519,11 @@ class NotTested(LogitechLed):
         )
 
     def set_lighting_for_key_with_scan_code(
-        self, key_code, red_percentage, green_percentage, blue_percentage
+        self,
+        key_code: int,
+        red_percentage: int,
+        green_percentage: int,
+        blue_percentage: int,
     ):
         """
         Sets the key identified by the scancode passed as parameter to the desired color
@@ -530,19 +548,19 @@ class NotTested(LogitechLed):
             blue_percentage,
         )
 
-    def set_lighting_from_bitmap(self, bitmap):
+    def set_lighting_from_bitmap(self, bitmap: bytes):
         """
         Sets the array of bytes passed as parameter as colors.
 
         .. warning::
             This function only affects per-key backlighting featured connected devices.
 
-        :param char bitmap: An unsigned char array containing the colors to assign to each key
+        :param bytes bitmap: An unsigned char array containing the colors to assign to each key
         """
         bitmap = ctypes.c_char_p(bitmap)
         execute(self.led_dll.LogiLedSetLightingFromBitmap, bitmap)
 
-    def set_target_device(self, target_device):
+    def set_target_device(self, target_device: int):
         """
         The function sets the target device type for future calls.
         By default, target device is all logitech device, therefore, if no call is made to LogiLedSetTargetDevice
@@ -553,7 +571,7 @@ class NotTested(LogitechLed):
 
         execute(self.led_dll.LogiLedSetTargetDevice, target_device)
 
-    def stop_effects_on_key(self, key_name):
+    def stop_effects_on_key(self, key_name: int):
         """
         Stops any ongoing effect on the key passed in as parameter.
 
