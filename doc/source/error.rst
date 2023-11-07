@@ -10,7 +10,7 @@ Exceptions
 
 The following exceptions are thrown by the library
 
-.. autoclass:: SDKNotFoundException
+.. autoclass:: SDKNotFound
     :members:
 
 .. autoclass:: LGHUBNotLaunched

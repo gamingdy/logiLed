@@ -12,7 +12,7 @@ import struct
 from pathlib import Path
 
 
-class SDKNotFoundException(BaseException):
+class SDKNotFound(BaseException):
     """
     Raised if the SDK DLL file cannot be found.
     """
@@ -658,4 +658,4 @@ def load_dll():
             )
         return True
     else:
-        raise SDKNotFoundException("The SDK DLL was not found.")
+        raise SDKNotFound("The SDK DLL was not found.")
