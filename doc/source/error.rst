@@ -19,3 +19,5 @@ The following exceptions are thrown by the library
 .. autoclass:: RangeError
     :members:
 
+.. autoclass:: ConnectionLost
+    :members:
