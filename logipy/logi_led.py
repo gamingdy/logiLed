@@ -1,6 +1,6 @@
 """
 .. note::
-    logi_led.py : Defines the exported functions for the API Logitech Gaming LED SDK \n
+    logi_led.py : Defines the exported functions for the API Logitech Gaming LED SDK
     Original author: **Tom Lambert**
 
     This is a fork of https://github.com/Logitech/logiPy by **gamingdy**
@@ -8,7 +8,6 @@
 
 import ctypes
 import os
-import struct
 from pathlib import Path
 
 
@@ -115,6 +114,7 @@ class LogitechLed:
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
         :raises RangeError: Raised if color percentage range is not correct
+        :raises TypeError: Raised if bad type is passed as parameter
 
         """
         check_type(int, red_percentage, green_percentage, blue_percentage)
@@ -146,6 +146,7 @@ class LogitechLed:
         :param int ms_interval: Interval duration between each effect in millisecond.
 
         :raises RangeError: Raised if color percentage range is not correct
+        :raises TypeError: Raised if bad type is passed as parameter
 
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
@@ -189,6 +190,7 @@ class LogitechLed:
         :param int ms_interval: Interval duration between each effect in millisecond.
 
         :raises RangeError: Raised if color percentage range is not correct
+        :raises TypeError: Raised if bad type is passed as parameter
 
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
@@ -235,6 +237,7 @@ class LogitechLed:
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
         :raises RangeError: Raised if color percentage range is not correct
+        :raises TypeError: Raised if bad type is passed as parameter
 
         """
         check_type(int, zone, red_percentage, green_percentage, blue_percentage)
@@ -284,6 +287,7 @@ class NotTested(LogitechLed):
         :param int ms_interval: Interval duration between each effect in millisecond.
 
         :raises RangeError: Raised if color percentage range is not correct
+        :raises TypeError: Raised if bad type is passed as parameter
 
         .. tip::
             Specifying a **ms_duration** to 0 will cause the effect to be infinite until reset
@@ -340,6 +344,7 @@ class NotTested(LogitechLed):
         :param int blue_percentage_end: Amount of blue in the finish color of the effect. **Range is 0 to 100**.
 
         :raises RangeError: Raised if color percentage range is not correct
+        :raises TypeError: Raised if bad type is passed as parameter
 
         """
         check_type(
@@ -397,6 +402,8 @@ class NotTested(LogitechLed):
             This function only affects per-key backlighting featured connected devices.
 
         :param int key_name: The key to restore the color on.
+
+        :raises TypeError: Raised if bad type is passed as parameter
         """
         check_type(int, key_name)
         execute(self.led_dll.LogiLedRestoreLightingForKey, key_name)
@@ -411,6 +418,8 @@ class NotTested(LogitechLed):
             This function only affects per-key backlighting featured connected devices.
 
         :param int key_name: The key to save the color for.
+
+        :raises TypeError: Raised if bad type is passed as parameter
 
         """
         check_type(int, key_name)
@@ -435,6 +444,7 @@ class NotTested(LogitechLed):
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
         :raises RangeError: Raised if color percentage range is not correct
+        :raises TypeError: Raised if bad type is passed as parameter
         """
         check_type(
             int, key_code, red_percentage, green_percentage, blue_percentage
@@ -468,6 +478,7 @@ class NotTested(LogitechLed):
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
         :raises RangeError: Raised if color percentage range is not correct
+        :raises TypeError: Raised if bad type is passed as parameter
         """
         check_type(
             int, key_name, red_percentage, green_percentage, blue_percentage
@@ -502,6 +513,7 @@ class NotTested(LogitechLed):
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
         :raises RangeError: Raised if color percentage range is not correct
+        :raises TypeError: Raised if bad type is passed as parameter
         """
         check_type(
             int, key_code, red_percentage, green_percentage, blue_percentage
@@ -535,6 +547,7 @@ class NotTested(LogitechLed):
         :param int blue_percentage: Amount of blue. **Range is 0 to 100**.
 
         :raises RangeError: Raised if color percentage range is not correct
+        :raises TypeError: Raised if bad type is passed as parameter
         """
         check_type(
             int, key_code, red_percentage, green_percentage, blue_percentage
@@ -557,6 +570,7 @@ class NotTested(LogitechLed):
             This function only affects per-key backlighting featured connected devices.
 
         :param bytes bitmap: An unsigned char array containing the colors to assign to each key
+        :raises TypeError: Raised if bad type is passed as parameter
         """
         check_type(bytes, bitmap)
         bitmap = ctypes.c_char_p(bitmap)
@@ -569,6 +583,8 @@ class NotTested(LogitechLed):
         the SDK will apply any function to all the connected devices.
 
         :param int target_device:
+
+        :raises TypeError: Raised if bad type is passed as parameter
         """
         check_type(int, target_device)
         execute(self.led_dll.LogiLedSetTargetDevice, target_device)
@@ -578,6 +594,8 @@ class NotTested(LogitechLed):
         Stops any ongoing effect on the key passed in as parameter.
 
         :param int key_name: The ket to sto the efects on
+
+        :raises TypeError: Raised if bad type is passed as parameter
 
         .. warning::
             This function only affects per-key backlighting featured connected devices.
