@@ -1,8 +1,8 @@
 :orphan:
 
 
-Installing Logipy
-=================
+Installing LogiLed
+==================
 
 You can get the library directly from PyPI:
 

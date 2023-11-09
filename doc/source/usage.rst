@@ -1,7 +1,7 @@
 :orphan:
 
-How to use Logipy
-======================
+How to use LogiLed
+==================
 
 .. important::
     Before reading this, please check that you have installed the module, if not, here's how to do it :doc:`install`
@@ -31,7 +31,7 @@ Or NotTested if you want to use untested functions
 All LogitechLed functions are available when you use NotTested. Allowing you to use both simultaneously
 
 .. note::
-    The full list of functions is available here :doc:`logipy`
+    The full list of functions is available here :doc:`logiled`
 
 Best way to stop program
 ~~~~~~~~~~~~~~~~~~~~~~~~

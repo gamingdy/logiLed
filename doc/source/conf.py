@@ -19,9 +19,9 @@
 import sys
 import os
 
-sys.path.insert(0, os.path.abspath("../../logipy"))
+sys.path.insert(0, os.path.abspath("../../logiled"))
 
-project = "LogiPy"
+project = "LogiLed"
 copyright = "2015-2022, Tom Lambert (Logitech) & 2022-present, Gamingdy"
 author = "Gamingdy"
 
@@ -56,7 +56,7 @@ exclude_patterns = []
 #
 html_theme = "furo"
 html_theme_options = {
-    "source_repository": "https://github.com/gamingdy/logiPy",
+    "source_repository": "https://github.com/gamingdy/logiLed",
     "top_of_page_button": "edit",
 }
 

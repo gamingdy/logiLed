@@ -1,7 +1,7 @@
 .. currentmodule:: logi_led
 
-Welcome to LogiPy's documentation!
-==================================
+Welcome to LogiLed's documentation!
+===================================
 
 
 This project is a fork of `LogiPy <https://github.com/Logitech/logiPy>`_
@@ -29,6 +29,6 @@ Core Wrapper
    :maxdepth: 1
    :caption: Contents
 
-   logipy.rst
+   logiled.rst
    error.rst
    example.rst

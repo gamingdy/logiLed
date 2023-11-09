@@ -5,8 +5,8 @@
 
 .. currentmodule:: logi_led
 
-LogiPy
-======
+LogiLed
+=======
 
 .. important::
    All function listed here **return True if succeeds**. The function will **return False if the connection with
@@ -20,7 +20,7 @@ LogiPy
 .. important::
    The following class contains a list of untested functions due to a lack of compatible hardware.
 
-   I can't guarantee the proper functioning, but you can test them and report the errors meet through an `issue <https://github.com/gamingdy/logiPy/issues>`_
+   I can't guarantee the proper functioning, but you can test them and report the errors meet through an `issue <https://github.com/gamingdy/logiLed/issues>`_
 
 .. autoclass:: NotTested
    :members:
