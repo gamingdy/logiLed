@@ -31,7 +31,6 @@ classifiers = [
     "Topic :: Utilities",
     "Typing :: Typed",
 ]
-dynamic = ["version", "dependencies", "optional-dependencies"]
 
 [project.urls]
 Source = "https://github.com/gamingdy/logiLed"
