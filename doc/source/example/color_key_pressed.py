@@ -1,8 +1,8 @@
-from pynput import keyboard
 from random import randint
 
-from packagename import LogitechLed, load_dll
+from pynput import keyboard
 
+from logiled import LogitechLed, load_dll
 
 load_dll()
 

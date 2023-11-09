@@ -8,13 +8,13 @@ You can get the library directly from PyPI:
 
 .. code:: sh
 
-    $ pip install packagename
+    $ pip install logiled
 
 If pip command not found
 
 .. code:: sh
 
-    $ python -m pip install packagename
+    $ python -m pip install logiled
 
 
 
@@ -46,7 +46,7 @@ However, for the quick and dirty:
 
     .. code-block:: sh
 
-        $ pip install packagename
+        $ pip install logiled
 
 Congratulations. You now have a virtual environment all set up.
 
