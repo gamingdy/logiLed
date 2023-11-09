@@ -36,7 +36,6 @@ classifiers = [
 Source = "https://github.com/gamingdy/logiLed"
 Tracker = "https://github.com/gamingdy/logiLed/issues"
 
+
 [tool.setuptools]
-packages = [
-    "logiled", "logiled.dll"
-]
+packages = ["logiled"]
