@@ -12,7 +12,7 @@ authors = [
     { name = "Gamingdy" }
 ]
 description = "A simple python wrapper for Logitech G's LED"
-readme = "README.rst"
+readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
 classifiers = [
