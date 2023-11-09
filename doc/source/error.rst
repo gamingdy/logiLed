@@ -21,3 +21,6 @@ The following exceptions are thrown by the library
 
 .. autoclass:: ConnectionLost
     :members:
+
+.. autoclass:: DLLNotLoad
+    :members:
