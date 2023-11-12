@@ -1,5 +1,8 @@
 # LogiLed
 
+**⚠️ This package only works on Windows. ⚠️**
+
+
 > [!IMPORTANT]  
 > This package is not affiliated with Logitech.
 > It has been designed to allow anyone to customize the RGB of these devices.
