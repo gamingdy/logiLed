@@ -16,6 +16,11 @@ If pip command not found
 
     $ python -m pip install logiled
 
+You can also get the library from TestPyPI:
+
+.. code:: sh
+
+    $ pip install -i https://test.pypi.org/simple/ logiled
 
 
 Virtual Environement
@@ -47,6 +52,10 @@ However, for the quick and dirty:
     .. code-block:: sh
 
         $ pip install logiled
+
+    .. code-block:: sh
+
+        $ pip install -i https://test.pypi.org/simple/ logiled
 
 Congratulations. You now have a virtual environment all set up.
 
