@@ -1,0 +1,41 @@
+[build-system]
+requires = [
+    "setuptools>=68.2.2",
+    "wheel>=0.41.3"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "logiled"
+version = "2023.11.12"
+authors = [
+    { name = "Gamingdy" }
+]
+description = "A simple python wrapper for Logitech G's LED"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: Microsoft :: Windows :: Windows 10",
+    "Operating System :: Microsoft :: Windows :: Windows 11",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Source = "https://github.com/gamingdy/logiLed"
+Tracker = "https://github.com/gamingdy/logiLed/issues"
+
+
+[tool.setuptools]
+packages = ["logiled"]

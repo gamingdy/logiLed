@@ -1,23 +1,18 @@
-import sys
 import os
+import sys
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-
-from logipy.logi_led import NotImplemented, LogitechLed
-import time
-import ctypes
-import random
+from logiled.logi_led import LogitechLed, load_dll
 
 
+# restore_lighting
+
+load_dll()
 print("Initialize...")
 logi_led = LogitechLed()
-b = logi_led.pulse_lighting(50, 100, 0, 0, 500)
-time.sleep(5)
-logi_led_test = NotImplemented()
 
-b = logi_led_test.stop_effects()
+a = logi_led.set_lighting_for_target_zone(1, 100, 0, 0)
 
 input("Press enter to shutdown SDK...")
 logi_led.shutdown()
-# logi_led_test.shutdown()

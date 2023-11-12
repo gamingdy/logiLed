@@ -3,7 +3,6 @@ import ctypes
 # DLL Definitions
 #
 
-
 ESC = 0x01
 F1 = 0x3B
 F2 = 0x3C
