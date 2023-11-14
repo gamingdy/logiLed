@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "logiled"
-version = "2023.11.12"
+version = "2023.11.12.1"
 authors = [
     { name = "Gamingdy" }
 ]

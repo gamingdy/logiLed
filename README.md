@@ -15,8 +15,8 @@ cool downs on various commands.
 
 ## Documentation
 
-The documentation can be found [here](https://logiled.gamingdy.me/en/latest/).  
-You can found the test documentation [here](https://beta.logiled.gamingdy.me/en/latest/).
+The documentation can be found [here](https://logiled.readthedocs.io/en/latest/).  
+You can found the test documentation [here](https://logiled.readthedocs.io/en/dev/).
 
 ## Installation
 
